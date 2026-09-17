@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Population, Sample, Mean, and Standard Deviation – Comparing Means</title>
+<title>1&nbsp; Population, Sample, Mean, and Standard Deviation – Statistics by Simulation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -330,7 +330,7 @@ window.Quarto = {
       <a href="./index.html" class="sidebar-logo-link">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Comparing Means</a> 
+      <a href="./">Statistics by Simulation</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/julianjhkim/statistics-book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -459,6 +459,12 @@ window.Quarto = {
 
     
   
+    <div>
+    <div class="quarto-title-meta-heading">Last updated</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">2026-09-17</p>
+    </div>
+  </div>
     
   </div>
   
@@ -524,8 +530,8 @@ Figure&nbsp;1.1: All ten thousand marks. Most students are somewhere in the sixt
 <p>The group we want to describe is the <strong>population</strong>. Here it is every student in the year. A population is not always people, and it is not always this easy to point at, but the idea is the same: it is the full set of things the question is about.</p>
 <p>We have all ten thousand marks on screen because we invented them. Real life is not like that. Getting every data point is nearly impossible in most cases. What actually happens is that somebody takes twenty students and works with those.</p>
 <div id="sample" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> rng.choice(population, <span class="dv">20</span>, replace<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.sort(sample).astype(<span class="bu">int</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>our_sample <span class="op">=</span> rng.choice(population, <span class="dv">20</span>, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.sort(our_sample).astype(<span class="bu">int</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[41 53 54 55 55 64 64 64 69 70 71 73 74 80 80 84 87 90 92 96]</code></pre>
 </div>
@@ -563,7 +569,7 @@ Figure&nbsp;1.1: All ten thousand marks. Most students are somewhere in the sixt
 \bar{x} = \frac{1}{20}\,(41 + 53 + 54 + \cdots + 92 + 96) = 70.80
 \]</span></p>
 <div id="means" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean of the 20 students we saw: </span><span class="sc">{</span>sample<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean of the 20 students we saw: </span><span class="sc">{</span>our_sample<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean of all 10,000 students:    </span><span class="sc">{</span>population<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Mean of the 20 students we saw: 70.80
@@ -658,7 +664,7 @@ s^2 = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2
 <p>Back to the twenty students from the start of the chapter. We now have both numbers for the sample (the 20 students) and the population (the 10,000 students).</p>
 <div id="sample-vs-population" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"                 mean      sd"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Our 20 students </span><span class="sc">{</span>sample<span class="sc">.</span>mean()<span class="sc">:7.2f}</span><span class="ss"> </span><span class="sc">{</span>sample<span class="sc">.</span>std(ddof<span class="op">=</span><span class="dv">1</span>)<span class="sc">:7.2f}</span><span class="ss">"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Our 20 students </span><span class="sc">{</span>our_sample<span class="sc">.</span>mean()<span class="sc">:7.2f}</span><span class="ss"> </span><span class="sc">{</span>our_sample<span class="sc">.</span>std(ddof<span class="op">=</span><span class="dv">1</span>)<span class="sc">:7.2f}</span><span class="ss">"</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"All 10,000      </span><span class="sc">{</span>population<span class="sc">.</span>mean()<span class="sc">:7.2f}</span><span class="ss"> </span><span class="sc">{</span>population<span class="sc">.</span>std()<span class="sc">:7.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 mean      sd

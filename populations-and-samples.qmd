@@ -43,8 +43,8 @@ We have all ten thousand marks on screen because we invented them. Real life is 
 
 ```{python}
 #| label: sample
-sample = rng.choice(population, 20, replace=False)
-print(np.sort(sample).astype(int))
+our_sample = rng.choice(population, 20, replace=False)
+print(np.sort(our_sample).astype(int))
 ```
 
 Those twenty marks are a **sample**. The sample is what we can see. The population is what we want to know about.
@@ -83,7 +83,7 @@ $$
 
 ```{python}
 #| label: means
-print(f"Mean of the 20 students we saw: {sample.mean():.2f}")
+print(f"Mean of the 20 students we saw: {our_sample.mean():.2f}")
 print(f"Mean of all 10,000 students:    {population.mean():.2f}")
 ```
 
@@ -176,7 +176,7 @@ Back to the twenty students from the start of the chapter. We now have both numb
 ```{python}
 #| label: sample-vs-population
 print("                 mean      sd")
-print(f"Our 20 students {sample.mean():7.2f} {sample.std(ddof=1):7.2f}")
+print(f"Our 20 students {our_sample.mean():7.2f} {our_sample.std(ddof=1):7.2f}")
 print(f"All 10,000      {population.mean():7.2f} {population.std():7.2f}")
 ```
 
