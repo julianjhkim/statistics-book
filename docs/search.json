@@ -1,0 +1,221 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Statistics by Simulation",
+    "section": "",
+    "text": "Preface",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "populations-and-samples.html",
+    "href": "populations-and-samples.html",
+    "title": "1  Population, Sample, Mean, and Standard Deviation",
+    "section": "",
+    "text": "1.1 What we want and what we have\n10,000 students are in the same year at university, and all of them took the same statistics exam, marked out of 100. Somebody wants to know how the year did.\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(68)\n\nPOPULATION_SIZE = 10_000\n\n# The mark every student in the year received.\npopulation = np.clip(np.round(rng.normal(70, 12, POPULATION_SIZE)), 0, 100)\n\nprint(f\"Students:     {population.size}\")\nprint(f\"Lowest mark:  {population.min():.0f}\")\nprint(f\"Highest mark: {population.max():.0f}\")\n\nStudents:     10000\nLowest mark:  22\nHighest mark: 100\nfig, ax = plt.subplots(figsize=(7, 4))\nax.hist(population, bins=range(20, 102, 2), color=\"#adb5bd\",\n        edgecolor=\"white\", linewidth=0.4)\nax.set_xlabel(\"Mark\")\nax.set_ylabel(\"Number of students\")\nax.spines[[\"top\", \"right\"]].set_visible(False)\nplt.show()\n\n\n\n\n\n\n\nFigure 1.1: All ten thousand marks. Most students are somewhere in the sixties and seventies, with thinner tails reaching down to the twenties and up to full marks.\nThe group we want to describe is the population. Here it is every student in the year. A population is not always people, and it is not always this easy to point at, but the idea is the same: it is the full set of things the question is about.\nWe have all ten thousand marks on screen because we invented them. Real life is not like that. Getting every data point is nearly impossible in most cases. What actually happens is that somebody takes twenty students and works with those.\nsample = rng.choice(population, 20, replace=False)\nprint(np.sort(sample).astype(int))\n\n[41 53 54 55 55 64 64 64 69 70 71 73 74 80 80 84 87 90 92 96]\nThose twenty marks are a sample. The sample is what we can see. The population is what we want to know about.",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Population, Sample, Mean, and Standard Deviation</span>"
+    ]
+  },
+  {
+    "objectID": "populations-and-samples.html#sec-the-mean",
+    "href": "populations-and-samples.html#sec-the-mean",
+    "title": "1  Population, Sample, Mean, and Standard Deviation",
+    "section": "1.2 Squeezing a group into one number",
+    "text": "1.2 Squeezing a group into one number\nTwenty marks is already more than you can hold in your head, and ten thousand is a lost cause. To say anything at all about a group we have to compress it, and the usual compression is the mean: add the values up, divide by how many there are. You have done this since school.\nFor a population of \\(N\\) values:\n\\[\n\\mu = \\frac{1}{N} \\sum_{i=1}^{N} x_i\n\\]\nFor a sample of \\(n\\) values:\n\\[\n\\bar{x} = \\frac{1}{n} \\sum_{i=1}^{n} x_i\n\\]\n\n\n\n\n\n\nNoteNotation alert! Don’t panic.\n\n\n\nThat \\(\\sum\\) is a capital sigma, and it is just an instruction to add things up. The \\(i = 1\\) underneath and the \\(N\\) on top say where to start and where to stop, so \\(\\sum_{i=1}^{N} x_i\\) means nothing more alarming than \\(x_1 + x_2 + \\cdots + x_N\\).\nThe two formulas above are the same arithmetic written twice. Statisticians use \\(\\mu\\) and \\(N\\) when they mean a whole population and \\(\\bar{x}\\) and \\(n\\) when they mean a sample.\nIn practice you will almost always be working with the sample formulas. We show both here because the pair of them is what makes the distinction visible. The population is the thing you want to know about, and the sample is the thing you can see. The two are not the same, and the notation is how we keep track of which is which.\n\n\nOur twenty students, then:\n\\[\n\\bar{x} = \\frac{1}{20}\\,(41 + 53 + 54 + \\cdots + 92 + 96) = 70.80\n\\]\n\nprint(f\"Mean of the 20 students we saw: {sample.mean():.2f}\")\nprint(f\"Mean of all 10,000 students:    {population.mean():.2f}\")\n\nMean of the 20 students we saw: 70.80\nMean of all 10,000 students:    69.99\n\n\nCompressing also makes groups comparable. Twenty marks and ten thousand marks cannot be held up against each other in any useful way, but 70.80 and 69.99 can. That is why the mean turns up everywhere: it reduces any group, of any size, to something you can put next to any other group.",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Population, Sample, Mean, and Standard Deviation</span>"
+    ]
+  },
+  {
+    "objectID": "populations-and-samples.html#sec-standard-deviation",
+    "href": "populations-and-samples.html#sec-standard-deviation",
+    "title": "1  Population, Sample, Mean, and Standard Deviation",
+    "section": "1.3 What the mean leaves out",
+    "text": "1.3 What the mean leaves out\nCompression throws information away, and it is worth knowing what went missing. Here are two more draws of ten students from the same year.\n\nrng_demo = np.random.default_rng(58324)\n\ndraw_1 = rng_demo.choice(population, 10, replace=False)\ndraw_2 = rng_demo.choice(population, 10, replace=False)\n\nprint(\"Draw 1:\", np.sort(draw_1).astype(int), f\" mean {draw_1.mean():.1f}\")\nprint(\"Draw 2:\", np.sort(draw_2).astype(int), f\" mean {draw_2.mean():.1f}\")\n\nDraw 1: [61 66 68 68 69 69 69 69 71 79]  mean 68.9\nDraw 2: [41 52 61 61 64 67 71 90 90 97]  mean 69.4\n\n\n\nfig, ax = plt.subplots(figsize=(7, 2.6))\nfor y, data, label in [(1, draw_1, \"Draw 1\"), (0, draw_2, \"Draw 2\")]:\n    ax.scatter(data, np.full_like(data, y, dtype=float), s=60,\n               color=\"#495057\", zorder=3)\n    ax.text(34, y, label, ha=\"right\", va=\"center\", fontsize=10)\nax.axvline(69, color=\"#c92a2a\", linewidth=1.5, zorder=2)\nax.set_xlim(28, 100)\nax.set_ylim(-0.6, 1.6)\nax.set_yticks([])\nax.set_xlabel(\"Mark\")\nax.spines[[\"top\", \"right\", \"left\"]].set_visible(False)\nplt.show()\n\n\n\n\n\n\n\nFigure 1.2: Two draws of ten students with nearly the same mean. The mean cannot tell them apart, and yet nobody would mistake one for the other.\n\n\n\n\n\nThe two means are half a mark apart, which is as close as makes no difference. Everything else about these groups is different. Draw 1 is nine students bunched between 61 and 71 with one straggler at 79. Draw 2 contains a student who scored 41 and a student who scored 97, and not much in the middle. Report only the means and nobody would ever suspect.\nSo we want a second number, one that says how far from the mean students tend to sit. The obvious first attempt is to average the distances \\(x_i - \\mu\\), and it does not work. The students above the mean and the students below it cancel out exactly, and the answer comes back zero every time, for every group that has ever existed. Squaring each distance gets rid of the sign. Average the squares, then take a square root to get back to the original units, and you have the standard deviation:\n\\[\n\\sigma = \\sqrt{\\frac{1}{N} \\sum_{i=1}^{N} (x_i - \\mu)^2}\n\\]\nWith the mean, the population and the sample formulas were the same arithmetic under different letters. The standard deviation is not like that. The sample version changes the denominator:\n\\[\ns = \\sqrt{\\frac{1}{n-1} \\sum_{i=1}^{n} (x_i - \\bar{x})^2}\n\\]\nWhy \\(n - 1\\) and not \\(n\\)? Hold that thought. For now, let us just run the formula.\nDraw 1 has ten students and a mean of \\(\\bar{x} = 68.9\\):\n\\[\n\\begin{aligned}\ns &= \\sqrt{\\frac{1}{10-1}\\left[(61 - 68.9)^2 + (66 - 68.9)^2 + \\cdots + (79 - 68.9)^2\\right]} \\\\[6pt]\n  &= \\sqrt{\\frac{(-7.9)^2 + (-2.9)^2 + \\cdots + (10.1)^2}{9}} \\\\[6pt]\n  &= \\sqrt{\\frac{178.9}{9}} \\\\[6pt]\n  &= \\sqrt{19.88} = 4.46\n\\end{aligned}\n\\]\n\nprint(f\"Draw 1: mean {draw_1.mean():5.1f}, s {draw_1.std(ddof=1):5.2f}\")\nprint(f\"Draw 2: mean {draw_2.mean():5.1f}, s {draw_2.std(ddof=1):5.2f}\")\nprint(f\"\\nAll 10,000 students: mean {population.mean():.2f}, \"\n      f\"sigma {population.std():.2f}\")\n\nDraw 1: mean  68.9, s  4.46\nDraw 2: mean  69.4, s 17.95\n\nAll 10,000 students: mean 69.99, sigma 11.94\n\n\nRevisit Figure 1.2. You can now see that Draw 1’s low standard deviation shows up as points clustered tightly around the mean, while Draw 2’s points are scattered across the width of the plot. The means are nearly the same. The standard deviations tell two different stories.\nOne last piece of vocabulary. The quantity under the square root, the average of the squared distances, has its own name: it is the variance. Square root the variance and you have the standard deviation; square the standard deviation and you are back at the variance.\n\\[\n\\sigma^2 = \\frac{1}{N} \\sum_{i=1}^{N} (x_i - \\mu)^2\n\\qquad\\qquad\ns^2 = \\frac{1}{n-1} \\sum_{i=1}^{n} (x_i - \\bar{x})^2\n\\]",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Population, Sample, Mean, and Standard Deviation</span>"
+    ]
+  },
+  {
+    "objectID": "populations-and-samples.html#sec-sample-is-not-population",
+    "href": "populations-and-samples.html#sec-sample-is-not-population",
+    "title": "1  Population, Sample, Mean, and Standard Deviation",
+    "section": "1.4 The sample is not the population",
+    "text": "1.4 The sample is not the population\nBack to the twenty students from the start of the chapter. We now have both numbers for the sample (the 20 students) and the population (the 10,000 students).\n\nprint(\"                 mean      sd\")\nprint(f\"Our 20 students {sample.mean():7.2f} {sample.std(ddof=1):7.2f}\")\nprint(f\"All 10,000      {population.mean():7.2f} {population.std():7.2f}\")\n\n                 mean      sd\nOur 20 students   70.80   14.87\nAll 10,000        69.99   11.94\n\n\nClose, but the numbers are different. There is no mistake to find here. The mean of those twenty marks is computed perfectly. It is simply the mean of twenty people rather than ten thousand.\nAn estimator is any recipe for turning a sample into a guess about a population. \\(\\bar{x}\\) is an estimator of \\(\\mu\\), and \\(s\\) is an estimator of \\(\\sigma\\).\nEvery estimate misses. That is not the interesting part. The interesting part is whether the misses have a favourite direction.\nWe can settle that by brute force. Draw ten students, write down the estimate, put them back, and do it five thousand times.\n\nrng_sim = np.random.default_rng(2024)\n\nN_SAMPLE, N_REPEATS = 20, 5_000\n\npicked = np.array([rng_sim.choice(population.size, N_SAMPLE, replace=False)\n                   for _ in range(N_REPEATS)])\ndraws = population[picked]\n\nsample_means = draws.mean(axis=1)\nvariance_n1 = draws.var(axis=1, ddof=1)   # divided by n - 1\nvariance_n = draws.var(axis=1, ddof=0)    # divided by n\n\n\nfig, ax = plt.subplots(figsize=(7, 3.4))\nax.hist(sample_means, bins=50, color=\"#adb5bd\", edgecolor=\"white\", linewidth=0.4)\nax.axvline(population.mean(), color=\"#c92a2a\", linewidth=1.8, zorder=4)\nax.text(population.mean(), ax.get_ylim()[1] * 1.02,\n        f\"true mean {population.mean():.2f}\", color=\"#c92a2a\",\n        ha=\"center\", fontsize=10)\nax.scatter([sample_means.mean()], [0], s=160, marker=\"D\", color=\"#495057\",\n           edgecolor=\"white\", linewidth=1.2, zorder=5, clip_on=False)\nax.set_xlabel(\"Mean of a sample of 10 students\")\nax.set_ylabel(\"Number of samples\")\nax.spines[[\"top\", \"right\"]].set_visible(False)\nplt.show()\n\nprint(f\"Average of the 5,000 sample means: {sample_means.mean():.2f}\")\nprint(f\"True mean of the year:             {population.mean():.2f}\")\n\n\n\n\n\n\n\nFigure 1.3: The mean of each of 5,000 samples of ten students. The red line is the true mean of the year and the diamond is the average of all 5,000 estimates.\n\n\n\n\n\nAverage of the 5,000 sample means: 69.96\nTrue mean of the year:             69.99\n\n\nIndividual samples land anywhere from the high fifties to the low eighties, which is a reminder of how little ten students can promise you. But average all five thousand estimates together and you get the diamond, and the diamond sits on the line.\nThat is what makes the sample mean an unbiased estimator. Some of the five thousand came out above 69.99 and some below, evenly matched on both counts: as many too high as too low, and by about as much. Average them and the overshoots and the undershoots wipe each other out, leaving the true value behind.\nNote what this does not say. It does not say your sample statistics is not exactly the same as the population one. Unbiased is a property of the procedure, not a promise about the one result you happen to be holding.\nNow the same five thousand draws, with the spread estimated two ways.\n\nfig, axes = plt.subplots(2, 1, figsize=(7, 5), sharex=True)\npairs = [(axes[0], variance_n1, r\"divided by $n-1$\"),\n         (axes[1], variance_n, r\"divided by $n$\")]\n\nfor ax, estimates, label in pairs:\n    ax.hist(estimates, bins=60, color=\"#adb5bd\", edgecolor=\"white\", linewidth=0.4)\n    ax.axvline(population.var(), color=\"#c92a2a\", linewidth=1.8, zorder=4)\n    ax.scatter([estimates.mean()], [0], s=160, marker=\"D\", color=\"#495057\",\n               edgecolor=\"white\", linewidth=1.2, zorder=5, clip_on=False)\n    ax.set_title(f\"{label}: average estimate {estimates.mean():.1f}\", fontsize=11)\n    ax.set_ylabel(\"Samples\")\n    ax.spines[[\"top\", \"right\"]].set_visible(False)\n\naxes[0].text(population.var(), axes[0].get_ylim()[1] * 1.15,\n             f\"true variance {population.var():.1f}\", color=\"#c92a2a\",\n             ha=\"center\", fontsize=10)\naxes[1].set_xlabel(\"Variance estimated from a sample of 10 students\")\nplt.show()\n\nprint(f\"True variance:        {population.var():7.1f}\")\nprint(f\"Average with n - 1:   {variance_n1.mean():7.1f}\")\nprint(f\"Average with n:       {variance_n.mean():7.1f}\")\nprint(f\"Ratio, n version:     {variance_n.mean() / population.var():7.3f}\")\n\n\n\n\n\n\n\nFigure 1.4: The variance of each of the same 5,000 samples, divided by \\(n-1\\) on top and by \\(n\\) underneath. The two histograms have the same shape. Only their position differs.\n\n\n\n\n\nTrue variance:          142.6\nAverage with n - 1:     142.4\nAverage with n:         135.2\nRatio, n version:       0.948\n\n\nThere it is. Dividing by \\(n - 1\\) puts the diamond on the line. Dividing by \\(n\\) leaves it short. Every single one is shrunk (or inflated) by the same factor. That is what biased means.\nDifferent estimators go wrong in different ways, and each one needs its own repair. There is no general rule that says “subtract one from the denominator” and no reason to expect one. So it is worth asking what is specifically wrong with the variance.\nLook again at what we computed. Why is the mean unbiased while the variance is not? The answer is sitting in the formulas.\nLook back at the formula for the mean. The arithmetic runs on the data points and nothing else. Every number that goes in came straight from the population. Now look at the variance: it measures distances from \\(\\bar{x}\\), and \\(\\bar{x}\\) is not the population mean. It is an estimate of the population mean, and we saw earlier that an estimate is never quite the thing it estimates. That gap is where the bias comes from.\nIn short: when a formula has another estimator inside it, expect bias.\n\n\n\n\n\n\nTipThink it through\n\n\n\nWe repair the variance by dividing by \\(n - 1\\) rather than \\(n\\). Why does a smaller denominator push the estimate in the right direction? Which way was it wrong to begin with?\n\n\nAnswer\n\nIt came out too small, and the reason is a property of the mean itself: of all the points you could measure from, the sample mean is the one that makes \\(\\sum (x_i - c)^2\\) as small as it can be. No other value of \\(c\\) does better.\nTry it. Take Draw 1, whose mean is 68.9, and feed a few different centres through the same sum.\n\nfor centre in [60, 65, 68.9, 69.99, 75]:\n    total = ((draw_1 - centre) ** 2).sum()\n    print(f\"measured from {centre:6.2f}:  {total:7.1f}\")\n\nmeasured from  60.00:    971.0\nmeasured from  65.00:    331.0\nmeasured from  68.90:    178.9\nmeasured from  69.99:    190.8\nmeasured from  75.00:    551.0\n\n\nNothing beats 68.9, and nothing ever will, for any sample. Note in particular the row for 69.99, the true \\(\\mu\\): it comes out higher. Had we been able to measure from the real population mean, the distances would have added up to more.\nThat is the bias in one line. We always measure from the centre that flatters this particular sample, so every sample looks tighter than the population it came from. A smaller denominator makes the answer bigger, which is the direction we need, and \\(n - 1\\) makes it bigger by exactly the right amount.\n\n\n\n\n\n\n\n\n\nNoteThe correction is exact for the variance, nearly exact for the standard deviation\n\n\n\nIf you run the same simulation on \\(s\\) rather than \\(s^2\\), the diamond does not quite make it onto the line. The average of the 5,000 values of \\(s\\) comes out around 11.64 against a true \\(\\sigma\\) of 11.94.\nNothing has gone wrong. The \\(n - 1\\) correction is built to make the variance land on target, and it does, exactly. Taking a square root afterwards pulls the result down by a small amount, so a little bias survives into the standard deviation. Fixing that too is possible and almost nobody bothers, because the leftover is small and shrinks as samples grow. It is worth knowing about, if only so you are not confused when you check.",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Population, Sample, Mean, and Standard Deviation</span>"
+    ]
+  },
+  {
+    "objectID": "populations-and-samples.html#sec-notation",
+    "href": "populations-and-samples.html#sec-notation",
+    "title": "1  Population, Sample, Mean, and Standard Deviation",
+    "section": "1.5 Notation",
+    "text": "1.5 Notation\nEverything in this chapter came in pairs: a number describing the whole population, and the estimate of it we could actually compute. The letters keep track of which is which, and they will keep doing so for the rest of the book.\n\n\n\n\nPopulation\nSample\n\n\n\n\nSize\n\\(N\\)\n\\(n\\)\n\n\nMean\n\\(\\mu\\), “mu”\n\\(\\bar{x}\\), “x bar”\n\n\nVariance\n\\(\\sigma^2\\), “sigma squared”\n\\(s^2\\), “s squared”\n\n\nStandard deviation\n\\(\\sigma\\), “sigma”\n\\(s\\), “s”\n\n\n\nGreek letters on the left, ordinary letters on the right. That is the convention across most of statistics: Greek for the truth you are after, Roman for the estimate you have in hand.",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Population, Sample, Mean, and Standard Deviation</span>"
+    ]
+  },
+  {
+    "objectID": "standard-error.html",
+    "href": "standard-error.html",
+    "title": "2  Standard Error",
+    "section": "",
+    "text": "2.1 How far off is one estimate?\nThe last chapter ended on a good note and a loose thread. The good note: the sample mean is unbiased, so the procedure does not lean. The loose thread: you do not get five thousand samples. You get one, and that one landed anywhere between the high fifties and the high seventies.\nSo the question left over is how far off a single estimate is likely to be.\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(68)\n\n# The same ten thousand students, and the same twenty we drew from them.\npopulation = np.clip(np.round(rng.normal(70, 12, 10_000)), 0, 100)\nour_sample = rng.choice(population, 20, replace=False)\n\nprint(f\"True mean of the year:   {population.mean():.2f}\")\nprint(f\"True spread of the year: {population.std():.2f}\")\n\nTrue mean of the year:   69.99\nTrue spread of the year: 11.94\nrng_sim = np.random.default_rng(2024)\n\ndef sample_means(n, repeats=5_000):\n    \"\"\"Draw n students, take their mean, repeat.\"\"\"\n    picked = np.array([rng_sim.choice(population.size, n, replace=False)\n                       for _ in range(repeats)])\n    return population[picked].mean(axis=1)\n\nmeans_20 = sample_means(20)\n\nprint(f\"Spread of the sample means: {means_20.std(ddof=1):.2f}\")\n\nSpread of the sample means: 2.66\nWe now have two numbers that both describe scatter, and they are not measuring the same thing.\nThe 11.94 from Figure 1.1 is about students. It says that a student picked at random sits about 12 marks away from the average student, which is why the year contains people in the forties and people in the nineties.\nThe 2.66 from Figure 1.3 is about estimates. It says that when you draw twenty students and average them, the number you get sits about 3 marks away from the true 69.99.\nEstimates scatter far less than students do, and averaging is the reason. A sample of twenty will usually contain a few strong students and a few weak ones, and they cancel in the average. For a sample mean to land far from the truth, the draw has to go the same way twenty times over, and that is rare.",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Standard Error</span>"
+    ]
+  },
+  {
+    "objectID": "standard-error.html#sec-depends-on-n",
+    "href": "standard-error.html#sec-depends-on-n",
+    "title": "2  Standard Error",
+    "section": "2.2 The width depends on how many you ask",
+    "text": "2.2 The width depends on how many you ask\nTwenty students was our choice, and nothing forced it. What happens if we ask more?\n\nmeans_60 = sample_means(60)\nmeans_180 = sample_means(180)\n\nfig, axes = plt.subplots(3, 1, figsize=(7, 6), sharex=True)\nfor ax, means, n in [(axes[0], means_20, 20),\n                     (axes[1], means_60, 60),\n                     (axes[2], means_180, 180)]:\n    ax.hist(means, bins=60, color=\"#adb5bd\", edgecolor=\"white\", linewidth=0.4)\n    ax.axvline(population.mean(), color=\"#c92a2a\", linewidth=1.8, zorder=4)\n    ax.set_title(f\"n = {n}: spread of the estimates is {means.std(ddof=1):.2f}\",\n                 fontsize=11)\n    ax.set_ylabel(\"Samples\")\n    ax.spines[[\"top\", \"right\"]].set_visible(False)\naxes[2].set_xlabel(\"Mean of one sample\")\nplt.show()\n\n\n\n\n\n\n\nFigure 2.1: Sample means from 5,000 draws at three different sample sizes. The true mean is the red line. Larger samples produce estimates that huddle closer to it.\n\n\n\n\n\nAll three are centred on the truth, which is the unbiasedness from the last chapter turning up three more times. What changes is the width. Twenty students give estimates scattered by about 2.7 marks, sixty by about 1.5, a hundred and eighty by about 0.9.\nNow compare the first panel with the last. We went from 20 students to 180, nine times as many, and the scatter fell from 2.7 to 0.9. That is not a ninth of what it was. It is about a third.\n\nbase = means_20.std(ddof=1)\n\nprint(f\"3 times the students:  scatter falls to \"\n      f\"{means_60.std(ddof=1) / base:.2f} of what it was\")\nprint(f\"9 times the students:  scatter falls to \"\n      f\"{means_180.std(ddof=1) / base:.2f} of what it was\")\nprint(f\"\\nFor comparison:  1/sqrt(3) = {1 / np.sqrt(3):.2f},\"\n      f\"   1/sqrt(9) = {1 / np.sqrt(9):.2f}\")\n\n3 times the students:  scatter falls to 0.58 of what it was\n9 times the students:  scatter falls to 0.33 of what it was\n\nFor comparison:  1/sqrt(3) = 0.58,   1/sqrt(9) = 0.33\n\n\nTripling the sample cut the scatter to 0.58 of what it had been, and \\(1/\\sqrt{3}\\) is 0.58. Multiplying the sample by nine cut it to 0.33, and \\(1/\\sqrt{9}\\) is a third exactly. Whatever governs this, the sample size is getting in under a square root.\nThere is a practical sting in that. Halving your uncertainty costs four times the data: 20 students to 80. Halving it again costs four times that, 320 students in all, for the same size of improvement. This is why sample sizes in real studies plateau where they do, and why “just collect more data” stops being useful advice quite quickly.\nBut a pattern is not an explanation, and this pattern is incomplete besides. It says how the scatter responds when \\(n\\) changes. It says nothing about where the scatter starts from. Twenty students gave us 2.7 marks, and so far nothing explains why 2.7 rather than 27 or 0.27.",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Standard Error</span>"
+    ]
+  },
+  {
+    "objectID": "standard-error.html#sec-addition-and-multiplication",
+    "href": "standard-error.html#sec-addition-and-multiplication",
+    "title": "2  Standard Error",
+    "section": "2.3 Addition and multiplication of variances",
+    "text": "2.3 Addition and multiplication of variances\nTo find the missing constant we leave the exam hall for a page and roll some dice.\nA single die lands on 1 through 6. There are two obvious ways to build something bigger out of it; roll a second die and add the two, or roll once and double what you get. Both give you a number between 2 and 12, both average 7, and they are not the same at all.\n\nfaces = np.arange(1, 7)\ntwo_dice = np.array([a + b for a in faces for b in faces])   # all 36 rolls\ndoubled = 2 * faces\n\nprint(\"One die:        \", faces)\nprint(\"Two dice added, grouped by the first die:\")\nprint(two_dice.reshape(6, 6))\nprint(\"One die doubled:\", doubled)\n\nprint()\nfor name, values in [(\"One die\", faces),\n                     (\"Two dice added\", two_dice),\n                     (\"One die doubled\", doubled)]:\n    print(f\"{name:18s} mean {values.mean():5.2f}   \"\n          f\"variance {values.var():7.3f}   sd {values.std():6.3f}\")\n\nOne die:         [1 2 3 4 5 6]\nTwo dice added, grouped by the first die:\n[[ 2  3  4  5  6  7]\n [ 3  4  5  6  7  8]\n [ 4  5  6  7  8  9]\n [ 5  6  7  8  9 10]\n [ 6  7  8  9 10 11]\n [ 7  8  9 10 11 12]]\nOne die doubled: [ 2  4  6  8 10 12]\n\nOne die            mean  3.50   variance   2.917   sd  1.708\nTwo dice added     mean  7.00   variance   5.833   sd  2.415\nOne die doubled    mean  7.00   variance  11.667   sd  3.416\n\n\n\nfig, axes = plt.subplots(1, 3, figsize=(10, 3.2), sharey=True)\npanels = [(faces, \"One die\\nvariance 2.92\"),\n          (two_dice, \"Two dice added\\nvariance 5.83\"),\n          (doubled, \"One die doubled\\nvariance 11.67\")]\n\nfor ax, (values, title) in zip(axes, panels):\n    counts, _ = np.histogram(values, bins=np.arange(0.5, 13.5, 1))\n    ax.bar(np.arange(1, 13), counts / counts.sum(), color=\"#adb5bd\",\n           edgecolor=\"white\", linewidth=0.5)\n    ax.axvline(values.mean(), color=\"#c92a2a\", linewidth=1.6, zorder=4)\n    ax.set_title(title, fontsize=10)\n    ax.set_xticks([2, 4, 6, 8, 10, 12])\n    ax.set_xlim(0.4, 12.6)\n    ax.set_xlabel(\"Value\")\n    ax.spines[[\"top\", \"right\"]].set_visible(False)\n\naxes[0].set_ylabel(\"Share of outcomes\")\nplt.show()\n\n\n\n\n\n\n\nFigure 2.2: Three ways to end up with a number. Adding two dice and doubling one die cover the same range and share the same average, but they do not spread the same way.\n\n\n\n\n\nCompare the middle panel with the right one. Same range, same average, and twice the variance on the right.\nThe difference is in the shape. Two dice added pile up in the middle, because there are six ways to make 7 and only one way to make 12. A doubled die is flat: 2, 4, 6, 8, 10 and 12 all turn up equally often, so it visits the extremes six times as readily. Reaching the edge of the range is easy in one case and rare in the other, and that is exactly what the variance is measuring.\nEach panel follows a rule.\nAddition. Two dice added have variance 5.833, exactly double the 2.917 of one. Add quantities that have nothing to do with each other and their variances add.\n\\[\n\\operatorname{Var}(X + Y) = \\operatorname{Var}(X) + \\operatorname{Var}(Y)\n\\]\nMultiplication. A doubled die has variance 11.667, exactly 4 times 2.917. Not 2 times. Multiply a quantity by \\(c\\) (here, 2) and its variance is multiplied by \\(c^2\\) (here, 4). Why squared? Because variance is measured in squared units, and doubling the units multiplies the squares by four.\n\\[\n\\operatorname{Var}(cX) = c^2 \\operatorname{Var}(X)\n\\]",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Standard Error</span>"
+    ]
+  },
+  {
+    "objectID": "standard-error.html#sec-back-to-the-exam",
+    "href": "standard-error.html#sec-back-to-the-exam",
+    "title": "2  Standard Error",
+    "section": "2.4 Back to the exam",
+    "text": "2.4 Back to the exam\nThe rules we just learned are about adding and scaling, and a sample mean is an addition followed by a division: add twenty students, divide by twenty.\nAdding twenty students, each with variance \\(\\sigma^2\\), gives a total with variance \\(20\\,\\sigma^2\\). Dividing by twenty multiplies that by \\(\\frac{1}{20^2}\\).\n\\[\n\\operatorname{Var}(\\bar{x}) = \\frac{20\\,\\sigma^2}{20^2} = \\frac{\\sigma^2}{20}\n\\qquad\\text{, so in general}\\qquad\n\\operatorname{Var}(\\bar{x}) = \\frac{\\sigma^2}{n}\n\\]\nSquare root both sides and there is the pattern the simulation kept pointing at.\n\\[\n\\text{spread of the sample means} = \\frac{\\sigma}{\\sqrt{n}}\n\\]\n\nprint(f\"Variance of the year          sigma^2      = {population.var():7.2f}\")\nprint(f\"Divided by n = 20             sigma^2 / n  = {population.var() / 20:7.2f}\")\nprint(f\"Square root of that           sigma / sqrt(n) = {np.sqrt(population.var() / 20):5.2f}\")\nprint(f\"\\nSpread observed in the simulation           = {means_20.std(ddof=1):5.2f}\")\n\nVariance of the year          sigma^2      =  142.63\nDivided by n = 20             sigma^2 / n  =    7.13\nSquare root of that           sigma / sqrt(n) =  2.67\n\nSpread observed in the simulation           =  2.66\n\n\n2.67 predicted against 2.66 observed, the width of Figure 1.3 back in the last chapter.",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Standard Error</span>"
+    ]
+  },
+  {
+    "objectID": "standard-error.html#sec-the-standard-error",
+    "href": "standard-error.html#sec-the-standard-error",
+    "title": "2  Standard Error",
+    "section": "2.5 The standard error",
+    "text": "2.5 The standard error\nThat spread has a name. The standard error (or standard error of the mean) is how much an estimate varies from sample to sample, and for a sample mean it is \\(\\sigma/\\sqrt{n}\\).\nWhich would be useless on its own, because \\(\\sigma\\) belongs to the population and the population is what we cannot see. But we have a stand-in for \\(\\sigma\\) from the last chapter:\n\\[\n\\widehat{\\text{SE}}(\\bar{x}) = \\frac{s}{\\sqrt{n}}\n\\]\n\nprint(f\"Our 20 students:  mean = {our_sample.mean():.2f},  s = {our_sample.std(ddof=1):.2f}\")\nprint(f\"Estimated standard error, s / sqrt(n) =  \"\n      f\"{our_sample.std(ddof=1) / np.sqrt(20):.2f}\")\n\nOur 20 students:  mean = 70.80,  s = 14.87\nEstimated standard error, s / sqrt(n) =  3.33\n\n\nSo what do these numbers actually tell us? Both 70.80 and 14.87 describe the twenty students in front of us. The 3.33 does something different, and the difference is worth being clear about.\n\\(s = 14.87\\) is a fact about students. Some of them did well and some did badly. Knowing the population perfectly would not make this number go away, because students really do differ from one another.\n\\(s/\\sqrt{n} = 3.33\\) is a fact about our answer. It says how much the 70.80 might move if we had walked into the room on a different day and met twenty different students. That is a property of our procedure, not of the students.\nThe \\(n\\) is what carries that distinction. With \\(s = 14.87\\) and twenty students the standard error is 3.33. With the same \\(s\\) and two thousand students it is 0.33. The students are equally varied in both cases, and the answer is ten times firmer in the second.",
+    "crumbs": [
+      "Part 1: Estimating from a Sample",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Standard Error</span>"
+    ]
+  },
+  {
+    "objectID": "why-compare-means.html",
+    "href": "why-compare-means.html",
+    "title": "3  Why Compare Means?",
+    "section": "",
+    "text": "3.1 Eight points\nTwenty students sat a statistics exam, marked out of 100. Ten of them are in Group A and ten are in Group B.\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(68)\n\nN_PER_GROUP = 10\nPOPULATION_SIZE = 10_000\n\npopulation = np.clip(np.round(rng.normal(70, 12, POPULATION_SIZE)), 0, 100)\ngroup_a = rng.choice(population, N_PER_GROUP, replace=False)\ngroup_b = rng.choice(population, N_PER_GROUP, replace=False)\n\nprint(\"Group A:\", np.sort(group_a).astype(int))\nprint(\"Group B:\", np.sort(group_b).astype(int))\nprint(f\"\\nAverages: {group_a.mean():.1f} and {group_b.mean():.1f}\")\nprint(f\"Gap:      {group_b.mean() - group_a.mean():.1f} points\")\n\nGroup A: [57 57 61 66 68 69 70 70 72 84]\nGroup B: [57 64 65 69 73 78 82 86 88 92]\n\nAverages: 67.4 and 75.4\nGap:      8.0 points\nEight points. Group B did better.\nNotice that no individual student supports that claim. Group B contains the lowest mark on the page, Group A contains a mark in the eighties, and the two sets of scores sit on top of each other almost everywhere. Compare students one by one and there is nothing to say. The eight points only exists once each group is squeezed down to a single number, which is why the average is where we start.\nSo what does eight points mean?",
+    "crumbs": [
+      "Part 2: Comparing Means",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Why Compare Means?</span>"
+    ]
+  },
+  {
+    "objectID": "why-compare-means.html#sec-what-chance-produces",
+    "href": "why-compare-means.html#sec-what-chance-produces",
+    "title": "3  Why Compare Means?",
+    "section": "3.2 What chance produces",
+    "text": "3.2 What chance produces\nTo judge a gap we need something to judge it against, and the obvious candidate is the gap we would have seen with no effect at all. If two groups of ten routinely land eight points apart for no reason, our result is nothing. If they almost never do, it is something.\nAnswering that means asking where these twenty students came from. They were drawn from a year group of ten thousand, all of whom sat the exam. The year averages 70, and most students land within about 12 points either side of it, which is what it means to say the marks have a standard deviation of 12.\nThat population is the thing that lets us repeat the experiment. Draw ten students, draw ten more, record the gap between their averages, and do it ten thousand times. Every one of those gaps comes from a world with no effect in it, because both groups were pulled from the same year the whole way through.\n\ndef sample_gaps(students, n_sims=10_000, n=N_PER_GROUP):\n    \"\"\"Draw two groups, record the gap, repeat.\"\"\"\n    picked = np.array([rng.choice(students.size, 2 * n, replace=False)\n                       for _ in range(n_sims)])\n    marks = students[picked]\n    return marks[:, n:].mean(axis=1) - marks[:, :n].mean(axis=1)\n\ngaps = sample_gaps(population)\n\nprint(f\"Average gap:       {gaps.mean():6.2f}\")\nprint(f\"Typical size:      {np.abs(gaps).mean():6.2f}\")\nprint(f\"Middle 95% within  {np.quantile(gaps, 0.025):.1f}\"\n      f\" to {np.quantile(gaps, 0.975):.1f}\")\nprint(f\"Gap of 8 or more:  {np.mean(np.abs(gaps) &gt;= 8):6.2%} of draws\")\n\nAverage gap:        -0.01\nTypical size:        4.25\nMiddle 95% within  -10.4 to 10.3\nGap of 8 or more:  13.61% of draws\n\n\n\nfig, ax = plt.subplots(figsize=(7, 4))\nax.hist(gaps, bins=60, color=\"#adb5bd\", edgecolor=\"white\", linewidth=0.4)\nax.axvline(8, color=\"#c92a2a\", linewidth=2)\nax.set_xlabel(\"Gap between the two group averages (points)\")\nax.set_ylabel(\"Number of draws\")\nax.spines[[\"top\", \"right\"]].set_visible(False)\nplt.show()\n\n\n\n\n\n\n\nFigure 3.1: Gaps between two groups of ten, across 10,000 draws from the same year group. Both groups come from one population every time, so the true gap is always zero. The observed eight points is marked in red.\n\n\n\n\n\nThe gaps center on zero, so the procedure is honest. Repeat it enough and it recovers the truth, which is that there is no difference at all. But hardly any single draw lands on zero. Two groups of ten sit about four points apart as a matter of course, the middle 95% runs past ten points in each direction, and eight points or more turns up in roughly one draw out of seven.\nOur eight points is sitting inside the ordinary range. It is not a finding. It is what this procedure does when nothing is going on.\n\n\n\n\n\n\nNote“No difference” is a claim about the population\n\n\n\nIt does not mean two groups will come out with equal averages. They never do. It means both groups were drawn from the same population, so their gap averages to zero over many repetitions while any single gap does not.",
+    "crumbs": [
+      "Part 2: Comparing Means",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Why Compare Means?</span>"
+    ]
+  },
+  {
+    "objectID": "why-compare-means.html#sec-same-gap-twice",
+    "href": "why-compare-means.html#sec-same-gap-twice",
+    "title": "3  Why Compare Means?",
+    "section": "3.3 The same eight points, twice",
+    "text": "3.3 The same eight points, twice\nThose numbers describe this exam, not exams in general. Change the exam and they change with it.\nSuppose the test is replaced with a much longer one, where a lucky guess moves a mark far less and students end up closer together. The same ten thousand students sit it, the year still averages 70, but the spread falls from 12 points to 5.\n\nfine_population = np.clip(np.round(rng.normal(70, 5, POPULATION_SIZE)), 0, 100)\nfine_gaps = sample_gaps(fine_population)\n\nfig, axes = plt.subplots(1, 2, figsize=(10, 4), sharex=True, sharey=True)\nfor ax, data, label in zip(axes, [gaps, fine_gaps],\n                           [\"Original exam (spread 12)\",\n                            \"Longer exam (spread 5)\"]):\n    ax.hist(data, bins=60, color=\"#adb5bd\", edgecolor=\"white\", linewidth=0.4)\n    ax.axvline(8, color=\"#c92a2a\", linewidth=2)\n    ax.set_title(label, fontsize=11)\n    ax.set_xlabel(\"Gap produced by chance (points)\")\n    ax.spines[[\"top\", \"right\"]].set_visible(False)\naxes[0].set_ylabel(\"Number of draws\")\nplt.show()\n\nprint(\"A gap of 8 points or more happens...\")\nprint(f\"  on the original exam: {np.mean(np.abs(gaps) &gt;= 8):6.2%} of draws\")\nprint(f\"  on the longer exam:   {np.mean(np.abs(fine_gaps) &gt;= 8):6.2%} of draws\")\n\n\n\n\n\n\n\nFigure 3.2: Gaps produced by drawing two groups of ten, under the original exam (left) and the longer one (right). The same eight points is ordinary on one exam and almost unreachable on the other.\n\n\n\n\n\nA gap of 8 points or more happens...\n  on the original exam: 13.61% of draws\n  on the longer exam:    0.02% of draws\n\n\nThe same eight points means two different things. On the left it is what chance hands you about one time in seven. On the right it happened twice in ten thousand attempts.\nNothing about the eight points changed. What changed was the company it keeps.\nA gap carries no meaning on its own. It acquires meaning only next to the gap that chance produces anyway.\nWhich leaves us one step short. We found the gaps chance produces by drawing ten thousand times from a year group we could see in full, and no real study has either of those. You get one draw, and the population stays hidden. The next chapter is about how to do this anyway.",
+    "crumbs": [
+      "Part 2: Comparing Means",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Why Compare Means?</span>"
+    ]
+  },
+  {
+    "objectID": "t-test.html",
+    "href": "t-test.html",
+    "title": "4  The \\(t\\)-Test",
+    "section": "",
+    "text": "Stub — outline only.",
+    "crumbs": [
+      "Part 2 — Comparing Means",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>$t$-Test</span>"
+    ]
+  },
+  {
+    "objectID": "anova.html",
+    "href": "anova.html",
+    "title": "5  ANOVA",
+    "section": "",
+    "text": "Stub — outline only.",
+    "crumbs": [
+      "Part 2: Comparing Means",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>ANOVA</span>"
+    ]
+  },
+  {
+    "objectID": "post-hoc.html",
+    "href": "post-hoc.html",
+    "title": "6  Post-Hoc Comparisons",
+    "section": "",
+    "text": "Stub — outline only.",
+    "crumbs": [
+      "Part 2: Comparing Means",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Post-Hoc Comparisons</span>"
+    ]
+  },
+  {
+    "objectID": "two-way-anova.html",
+    "href": "two-way-anova.html",
+    "title": "7  Two-Way ANOVA",
+    "section": "",
+    "text": "Stub — outline only.",
+    "crumbs": [
+      "Part 2: Comparing Means",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Two-Way ANOVA</span>"
+    ]
+  },
+  {
+    "objectID": "ancova.html",
+    "href": "ancova.html",
+    "title": "8  ANCOVA",
+    "section": "",
+    "text": "Stub — outline only.",
+    "crumbs": [
+      "Part 2: Comparing Means",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>ANCOVA</span>"
+    ]
+  },
+  {
+    "objectID": "one-model.html",
+    "href": "one-model.html",
+    "title": "9  It Was One Model All Along",
+    "section": "",
+    "text": "Stub — outline only.",
+    "crumbs": [
+      "Part 2: Comparing Means",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>It Was One Model All Along</span>"
+    ]
+  }
+]
