@@ -3,10 +3,8 @@ project:
   output-dir: docs
 
 book:
-  title: "Comparing Means"
+  title: "Statistics by Simulation"
   author: "Junghyun Julian Kim"
-  date: today
-  date-format: "[Last updated] D MMMM YYYY"
   site-url: https://julianjhkim.github.io/statistics-book/
   repo-url: https://github.com/julianjhkim/statistics-book
   repo-actions: [edit, issue]
@@ -27,6 +25,12 @@ book:
         - two-way-anova.qmd
         - ancova.qmd
         - one-model.qmd
+
+date-modified: last-modified
+date-format: "YYYY-MM-DD"
+
+language:
+  title-block-modified: "Last updated"
 
 format:
   html:
