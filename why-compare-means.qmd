@@ -1,0 +1,147 @@
+# Why Compare Means? {#sec-why-compare-means}
+
+## Eight points {#sec-eight-points}
+
+Twenty students sat a statistics exam, marked out of 100. Ten of them are in
+Group A and ten are in Group B.
+
+```{python}
+#| label: setup
+import numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(68)
+
+N_PER_GROUP = 10
+POPULATION_SIZE = 10_000
+
+population = np.clip(np.round(rng.normal(70, 12, POPULATION_SIZE)), 0, 100)
+group_a = rng.choice(population, N_PER_GROUP, replace=False)
+group_b = rng.choice(population, N_PER_GROUP, replace=False)
+
+print("Group A:", np.sort(group_a).astype(int))
+print("Group B:", np.sort(group_b).astype(int))
+print(f"\nAverages: {group_a.mean():.1f} and {group_b.mean():.1f}")
+print(f"Gap:      {group_b.mean() - group_a.mean():.1f} points")
+```
+
+Eight points. Group B did better.
+
+Notice that no individual student supports that claim. Group B contains the
+lowest mark on the page, Group A contains a mark in the eighties, and the two
+sets of scores sit on top of each other almost everywhere. Compare students one
+by one and there is nothing to say. The eight points only exists once each group
+is squeezed down to a single number, which is why the average is where we start.
+
+So what does eight points mean?
+
+## What chance produces {#sec-what-chance-produces}
+
+To judge a gap we need something to judge it against, and the obvious candidate
+is the gap we would have seen with no effect at all. If two groups of ten
+routinely land eight points apart for no reason, our result is nothing. If they
+almost never do, it is something.
+
+Answering that means asking where these twenty students came from. They were
+drawn from a year group of ten thousand, all of whom sat the exam. The year
+averages 70, and most students land within about 12 points either side of it,
+which is what it means to say the marks have a standard deviation of 12.
+
+That population is the thing that lets us repeat the experiment. Draw ten
+students, draw ten more, record the gap between their averages, and do it ten
+thousand times. Every one of those gaps comes from a world with no effect in it,
+because both groups were pulled from the same year the whole way through.
+
+```{python}
+#| label: null-distribution
+def sample_gaps(students, n_sims=10_000, n=N_PER_GROUP):
+    """Draw two groups, record the gap, repeat."""
+    picked = np.array([rng.choice(students.size, 2 * n, replace=False)
+                       for _ in range(n_sims)])
+    marks = students[picked]
+    return marks[:, n:].mean(axis=1) - marks[:, :n].mean(axis=1)
+
+gaps = sample_gaps(population)
+
+print(f"Average gap:       {gaps.mean():6.2f}")
+print(f"Typical size:      {np.abs(gaps).mean():6.2f}")
+print(f"Middle 95% within  {np.quantile(gaps, 0.025):.1f}"
+      f" to {np.quantile(gaps, 0.975):.1f}")
+print(f"Gap of 8 or more:  {np.mean(np.abs(gaps) >= 8):6.2%} of draws")
+```
+
+```{python}
+#| label: fig-null-distribution
+#| fig-cap: "Gaps between two groups of ten, across 10,000 draws from the same year group. Both groups come from one population every time, so the true gap is always zero. The observed eight points is marked in red."
+fig, ax = plt.subplots(figsize=(7, 4))
+ax.hist(gaps, bins=60, color="#adb5bd", edgecolor="white", linewidth=0.4)
+ax.axvline(8, color="#c92a2a", linewidth=2)
+ax.set_xlabel("Gap between the two group averages (points)")
+ax.set_ylabel("Number of draws")
+ax.spines[["top", "right"]].set_visible(False)
+plt.show()
+```
+
+The gaps center on zero, so the procedure is honest. Repeat it enough and it
+recovers the truth, which is that there is no difference at all. But hardly any
+single draw lands on zero. Two groups of ten sit about four points apart as a
+matter of course, the middle 95% runs past ten points in each direction, and
+eight points or more turns up in roughly one draw out of seven.
+
+Our eight points is sitting inside the ordinary range. It is not a finding. It is
+what this procedure does when nothing is going on.
+
+::: {.callout-note}
+## "No difference" is a claim about the population
+
+It does not mean two groups will come out with equal averages. They never do. It
+means both groups were drawn from the same population, so their gap averages to
+zero over many repetitions while any single gap does not.
+:::
+
+## The same eight points, twice {#sec-same-gap-twice}
+
+Those numbers describe this exam, not exams in general. Change the exam and they
+change with it.
+
+Suppose the test is replaced with a much longer one, where a lucky guess moves a
+mark far less and students end up closer together. The same ten thousand
+students sit it, the year still averages 70, but the spread falls from 12 points
+to 5.
+
+```{python}
+#| label: fig-two-exams
+#| fig-cap: "Gaps produced by drawing two groups of ten, under the original exam (left) and the longer one (right). The same eight points is ordinary on one exam and almost unreachable on the other."
+fine_population = np.clip(np.round(rng.normal(70, 5, POPULATION_SIZE)), 0, 100)
+fine_gaps = sample_gaps(fine_population)
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharex=True, sharey=True)
+for ax, data, label in zip(axes, [gaps, fine_gaps],
+                           ["Original exam (spread 12)",
+                            "Longer exam (spread 5)"]):
+    ax.hist(data, bins=60, color="#adb5bd", edgecolor="white", linewidth=0.4)
+    ax.axvline(8, color="#c92a2a", linewidth=2)
+    ax.set_title(label, fontsize=11)
+    ax.set_xlabel("Gap produced by chance (points)")
+    ax.spines[["top", "right"]].set_visible(False)
+axes[0].set_ylabel("Number of draws")
+plt.show()
+
+print("A gap of 8 points or more happens...")
+print(f"  on the original exam: {np.mean(np.abs(gaps) >= 8):6.2%} of draws")
+print(f"  on the longer exam:   {np.mean(np.abs(fine_gaps) >= 8):6.2%} of draws")
+```
+
+The same eight points means two different things. On the left it is what chance
+hands you about one time in seven. On the right it happened twice in ten thousand
+attempts.
+
+Nothing about the eight points changed. What changed was the company it keeps.
+
+**A gap carries no meaning on its own. It acquires meaning only next to the gap
+that chance produces anyway.**
+
+Which leaves us one step short. We found the gaps chance produces by drawing ten
+thousand times from a year group we could see in full, and no real study has
+either of those. You get one draw, and the population stays hidden. The next
+chapter is about how to do this anyway.

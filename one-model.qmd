@@ -1,0 +1,5 @@
+# It Was One Model All Along {#sec-one-model}
+
+::: {.callout-note appearance="simple"}
+Stub — outline only.
+:::

@@ -1,0 +1,5 @@
+# ANOVA {#sec-anova}
+
+::: {.callout-note appearance="simple"}
+Stub — outline only.
+:::

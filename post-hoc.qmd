@@ -1,0 +1,5 @@
+# Post-Hoc Comparisons {#sec-post-hoc}
+
+::: {.callout-note appearance="simple"}
+Stub — outline only.
+:::
