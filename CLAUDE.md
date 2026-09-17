@@ -145,6 +145,12 @@ from running Jekyll over the output.
 chapter's output looks stale after changing a *dependency* rather than the
 chapter itself, delete `_freeze/` for that chapter and re-render.
 
+**Stop any background `quarto preview` before rendering for a commit.** Because
+`docs/` is committed, preview is not harmless: it rewrites pages into `docs/` on
+its own schedule, and it can leave stale output behind between a render and a
+`git add`, so what gets committed is not what was just rendered. The sequence
+is: stop preview, `quarto render`, then stage and commit.
+
 Each chapter page carries its own "Last updated" date, from
 `date-modified: last-modified` in `_quarto.yml`. That reads **filesystem
 mtime**, not git history, so render locally from the working copy. A CI build
