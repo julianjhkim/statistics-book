@@ -16,6 +16,7 @@ book:
       chapters:
         - populations-and-samples.qmd
         - standard-error.qmd
+        - normal-distribution-central-limit-theorem.qmd
     - part: "Part 2: Comparing Means"
       chapters:
         - why-compare-means.qmd

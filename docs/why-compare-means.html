@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Why Compare Means? – Statistics by Simulation</title>
+<title>4&nbsp; Why Compare Means? – Statistics by Simulation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./t-test.html" rel="next">
-<link href="./standard-error.html" rel="prev">
+<link href="./normal-distribution-central-limit-theorem.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -313,7 +313,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./why-compare-means.html">Part 2: Comparing Means</a></li><li class="breadcrumb-item"><a href="./why-compare-means.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./why-compare-means.html">Part 2: Comparing Means</a></li><li class="breadcrumb-item"><a href="./why-compare-means.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -371,6 +371,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Standard Error</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./normal-distribution-central-limit-theorem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normal Distribution and Central Limit Theorem</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -385,43 +391,43 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./why-compare-means.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./t-test.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./anova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./post-hoc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Post-Hoc Comparisons</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Post-Hoc Comparisons</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./two-way-anova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Two-Way ANOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Two-Way ANOVA</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ancova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./one-model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It Was One Model All Along</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">It Was One Model All Along</span></span></a>
   </div>
 </li>
       </ul>
@@ -436,9 +442,9 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-eight-points" id="toc-sec-eight-points" class="nav-link active" data-scroll-target="#sec-eight-points"><span class="header-section-number">3.1</span> Eight points</a></li>
-  <li><a href="#sec-what-chance-produces" id="toc-sec-what-chance-produces" class="nav-link" data-scroll-target="#sec-what-chance-produces"><span class="header-section-number">3.2</span> What chance produces</a></li>
-  <li><a href="#sec-same-gap-twice" id="toc-sec-same-gap-twice" class="nav-link" data-scroll-target="#sec-same-gap-twice"><span class="header-section-number">3.3</span> The same eight points, twice</a></li>
+  <li><a href="#sec-eight-points" id="toc-sec-eight-points" class="nav-link active" data-scroll-target="#sec-eight-points"><span class="header-section-number">4.1</span> Eight points</a></li>
+  <li><a href="#sec-what-chance-produces" id="toc-sec-what-chance-produces" class="nav-link" data-scroll-target="#sec-what-chance-produces"><span class="header-section-number">4.2</span> What chance produces</a></li>
+  <li><a href="#sec-same-gap-twice" id="toc-sec-same-gap-twice" class="nav-link" data-scroll-target="#sec-same-gap-twice"><span class="header-section-number">4.3</span> The same eight points, twice</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/julianjhkim/statistics-book/edit/main/why-compare-means.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/julianjhkim/statistics-book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -446,9 +452,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./why-compare-means.html">Part 2: Comparing Means</a></li><li class="breadcrumb-item"><a href="./why-compare-means.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./why-compare-means.html">Part 2: Comparing Means</a></li><li class="breadcrumb-item"><a href="./why-compare-means.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-why-compare-means" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></span></h1>
+<h1 class="title"><span id="sec-why-compare-means" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></span></h1>
 </div>
 
 
@@ -471,8 +477,8 @@ window.Quarto = {
 </header>
 
 
-<section id="sec-eight-points" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="sec-eight-points"><span class="header-section-number">3.1</span> Eight points</h2>
+<section id="sec-eight-points" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-eight-points"><span class="header-section-number">4.1</span> Eight points</h2>
 <p>Twenty students sat a statistics exam, marked out of 100. Ten of them are in Group A and ten are in Group B.</p>
 <div id="setup" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -503,8 +509,8 @@ Gap:      8.0 points</code></pre>
 <p>Notice that no individual student supports that claim. Group B contains the lowest mark on the page, Group A contains a mark in the eighties, and the two sets of scores sit on top of each other almost everywhere. Compare students one by one and there is nothing to say. The eight points only exists once each group is squeezed down to a single number, which is why the average is where we start.</p>
 <p>So what does eight points mean?</p>
 </section>
-<section id="sec-what-chance-produces" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="sec-what-chance-produces"><span class="header-section-number">3.2</span> What chance produces</h2>
+<section id="sec-what-chance-produces" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-what-chance-produces"><span class="header-section-number">4.2</span> What chance produces</h2>
 <p>To judge a gap we need something to judge it against, and the obvious candidate is the gap we would have seen with no effect at all. If two groups of ten routinely land eight points apart for no reason, our result is nothing. If they almost never do, it is something.</p>
 <p>Answering that means asking where these twenty students came from. They were drawn from a year group of ten thousand, all of whom sat the exam. The year averages 70, and most students land within about 12 points either side of it, which is what it means to say the marks have a standard deviation of 12.</p>
 <p>That population is the thing that lets us repeat the experiment. Draw ten students, draw ten more, record the gap between their averages, and do it ten thousand times. Every one of those gaps comes from a world with no effect in it, because both groups were pulled from the same year the whole way through.</p>
@@ -545,7 +551,7 @@ Gap of 8 or more:  13.61% of draws</code></pre>
 <img src="why-compare-means_files/figure-html/fig-null-distribution-output-1.png" width="594" height="357" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-null-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.1: Gaps between two groups of ten, across 10,000 draws from the same year group. Both groups come from one population every time, so the true gap is always zero. The observed eight points is marked in red.
+Figure&nbsp;4.1: Gaps between two groups of ten, across 10,000 draws from the same year group. Both groups come from one population every time, so the true gap is always zero. The observed eight points is marked in red.
 </figcaption>
 </figure>
 </div>
@@ -567,8 +573,8 @@ Figure&nbsp;3.1: Gaps between two groups of ten, across 10,000 draws from the sa
 </div>
 </div>
 </section>
-<section id="sec-same-gap-twice" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="sec-same-gap-twice"><span class="header-section-number">3.3</span> The same eight points, twice</h2>
+<section id="sec-same-gap-twice" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-same-gap-twice"><span class="header-section-number">4.3</span> The same eight points, twice</h2>
 <p>Those numbers describe this exam, not exams in general. Change the exam and they change with it.</p>
 <p>Suppose the test is replaced with a much longer one, where a lucky guess moves a mark far less and students end up closer together. The same ten thousand students sit it, the year still averages 70, but the spread falls from 12 points to 5.</p>
 <div id="cell-fig-two-exams" class="cell" data-execution_count="4">
@@ -597,7 +603,7 @@ Figure&nbsp;3.1: Gaps between two groups of ten, across 10,000 draws from the sa
 <img src="why-compare-means_files/figure-html/fig-two-exams-output-1.png" width="817" height="376" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-exams-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.2: Gaps produced by drawing two groups of ten, under the original exam (left) and the longer one (right). The same eight points is ordinary on one exam and almost unreachable on the other.
+Figure&nbsp;4.2: Gaps produced by drawing two groups of ten, under the original exam (left) and the longer one (right). The same eight points is ordinary on one exam and almost unreachable on the other.
 </figcaption>
 </figure>
 </div>
@@ -1031,13 +1037,13 @@ Figure&nbsp;3.2: Gaps produced by drawing two groups of ten, under the original 
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./standard-error.html" class="pagination-link" aria-label="Standard Error">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Standard Error</span></span>
+      <a href="./normal-distribution-central-limit-theorem.html" class="pagination-link" aria-label="Normal Distribution and Central Limit Theorem">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normal Distribution and Central Limit Theorem</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./t-test.html" class="pagination-link" aria-label="$t$-Test">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
