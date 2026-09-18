@@ -112,8 +112,10 @@ for y, data, label in [(1, draw_1, "Draw 1"), (0, draw_2, "Draw 2")]:
     ax.scatter(data, np.full_like(data, y, dtype=float), s=60,
                color="#495057", zorder=3)
     ax.text(34, y, label, ha="right", va="center", fontsize=10)
+    ax.text(99, y + 0.3, f"s = {data.std(ddof=1):.2f}",
+            ha="right", va="center", fontsize=10, color="#495057")
 ax.axvline(69, color="#c92a2a", linewidth=1.5, zorder=2)
-ax.set_xlim(28, 100)
+ax.set_xlim(30, 100)
 ax.set_ylim(-0.6, 1.6)
 ax.set_yticks([])
 ax.set_xlabel("Mark")
@@ -151,8 +153,8 @@ $$
 
 ```{python}
 #| label: standard-deviations
-print(f"Draw 1: mean {draw_1.mean():5.1f}, s {draw_1.std(ddof=1):5.2f}")
-print(f"Draw 2: mean {draw_2.mean():5.1f}, s {draw_2.std(ddof=1):5.2f}")
+print(f"Draw 1: mean = {draw_1.mean():5.1f}, s = {draw_1.std(ddof=1):5.2f}")
+print(f"Draw 2: mean = {draw_2.mean():5.1f}, s = {draw_2.std(ddof=1):5.2f}")
 print(f"\nAll 10,000 students: mean {population.mean():.2f}, "
       f"sigma {population.std():.2f}")
 ```
@@ -263,11 +265,9 @@ There it is. Dividing by $n - 1$ puts the diamond on the line. Dividing by $n$ l
 
 Different estimators go wrong in different ways, and each one needs its own repair. There is no general rule that says "subtract one from the denominator" and no reason to expect one. So it is worth asking what is specifically wrong with the variance.
 
-Look again at what we computed. Why is the mean unbiased while the variance is not? The answer is sitting in the formulas.
-
 Look back at the formula for the mean. The arithmetic runs on the data points and nothing else. Every number that goes in came straight from the population. Now look at the variance: it measures distances from $\bar{x}$, and $\bar{x}$ is not the population mean. It is an estimate of the population mean, and we saw earlier that an estimate is never quite the thing it estimates. That gap is where the bias comes from.
 
-In short: when a formula has another estimator inside it, expect bias.
+In short: another estimator ($\bar{x}$) enters the formula → the estimate comes out too small → dividing by $n - 1$ corrects it → the variance is unbiased.
 
 ::: {.callout-tip}
 ## Think it through
