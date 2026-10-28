@@ -19,13 +19,9 @@ book:
         - normal-distribution-central-limit-theorem.qmd
     - part: "Part 2: Comparing Means"
       chapters:
-        - why-compare-means.qmd
         - t-test.qmd
         - anova.qmd
-        - post-hoc.qmd
-        - two-way-anova.qmd
         - ancova.qmd
-        - one-model.qmd
 
 date-modified: last-modified
 date-format: "YYYY-MM-DD"

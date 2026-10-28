@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.21">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>3&nbsp; Normal Distribution and Central Limit Theorem – Statistics by Simulation</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -65,23 +71,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./why-compare-means.html" rel="next">
+<link href="./t-test.html" rel="next">
 <link href="./standard-error.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea1d7ac60288e0f1efdbc993fd8432ae.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7e9717d9caa9b4d114d189eaeb260ada.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea1d7ac60288e0f1efdbc993fd8432ae.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-2a6abe4c656e78118c5caf32e94a2824.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-18a86156fa881a144d2995565f3cba36.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-474a37e43424c329c4530dde3bf06416.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-18a86156fa881a144d2995565f3cba36.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -111,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -326,9 +331,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistics by Simulation</a> 
         <div class="sidebar-tools-main">
@@ -390,44 +393,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./why-compare-means.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./t-test.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./anova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./post-hoc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Post-Hoc Comparisons</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./two-way-anova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Two-Way ANOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ancova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./one-model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">It Was One Model All Along</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
   </div>
 </li>
       </ul>
@@ -467,7 +446,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-18</p>
+      <p class="date-modified">2026-09-19</p>
     </div>
   </div>
     
@@ -492,7 +471,7 @@ window.Quarto = {
 <section id="sec-not-a-percentage" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="sec-not-a-percentage"><span class="header-section-number">3.1</span> A standard error is not a percentage</h2>
 <p>Here is a question it ought to answer. Our twenty students averaged 70.80. Suppose a colleague draws a different twenty from the same year and gets 74. Is that a normal amount of disagreement between two samples, or did one of us get unlucky?</p>
-<p>We know the estimates scatter by about 3.3 marks, so a gap of three between two of them does not look alarming. But “does not look alarming” is not an answer. We would like to say how often two samples disagree by that much.</p>
+<p>We know the estimates scatter by about 3.3 points, so a gap of three between two of them does not look alarming. But “does not look alarming” is not an answer. We would like to say how often two samples disagree by that much.</p>
 <div id="setup" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -544,7 +523,7 @@ Figure&nbsp;3.1: Two sets of estimates with the same standard error of 3.3. The 
 Standard error, right: 3.3</code></pre>
 </div>
 </div>
-<p>The standard error by itself cannot get us there. Look at <a href="#fig-shape-matters" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>. Both sets of estimates have a standard error of 3.3 and both are centred on the truth, but the red band catches 68% of them on the left and only 57% on the right. Same standard error, different percentage, because the estimates are arranged differently inside it.</p>
+<p>The standard error by itself cannot get us there. Look at <a href="#fig-shape-matters" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>. Both sets of estimates have a standard error of 3.3 and both are centered on the truth, but the red band catches 68% of them on the left and only 57% on the right. Same standard error, different percentage, because the estimates are arranged differently inside it.</p>
 <p>But what if estimates always came out bell-shaped, like the left panel?</p>
 </section>
 <section id="sec-three-strange-years" class="level2" data-number="3.2">
@@ -553,7 +532,7 @@ Standard error, right: 3.3</code></pre>
 <div id="odd-populations" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rng_shapes <span class="op">=</span> np.random.default_rng(<span class="dv">1859</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A test that separates nobody: marks land anywhere between 0 and 100.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A test that separates nobody: scores land anywhere between 0 and 100.</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>flat <span class="op">=</span> np.<span class="bu">round</span>(rng_shapes.uniform(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10_000</span>))</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># A test that is far too easy: nearly everyone near full marks, a tail below.</span></span>
@@ -563,8 +542,8 @@ Standard error, right: 3.3</code></pre>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>split <span class="op">=</span> np.clip(np.<span class="bu">round</span>(np.concatenate([rng_shapes.normal(<span class="dv">38</span>, <span class="dv">7</span>, <span class="dv">5_000</span>),</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                                         rng_shapes.normal(<span class="dv">82</span>, <span class="dv">7</span>, <span class="dv">5_000</span>)])), <span class="dv">0</span>, <span class="dv">100</span>)</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, marks <span class="kw">in</span> [(<span class="st">"Flat"</span>, flat), (<span class="st">"Easy"</span>, easy), (<span class="st">"Split"</span>, split)]:</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:6s}</span><span class="ss"> mean </span><span class="sc">{</span>marks<span class="sc">.</span>mean()<span class="sc">:6.2f}</span><span class="ss">   sd </span><span class="sc">{</span>marks<span class="sc">.</span>std()<span class="sc">:6.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, scores <span class="kw">in</span> [(<span class="st">"Flat"</span>, flat), (<span class="st">"Easy"</span>, easy), (<span class="st">"Split"</span>, split)]:</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:6s}</span><span class="ss"> mean </span><span class="sc">{</span>scores<span class="sc">.</span>mean()<span class="sc">:6.2f}</span><span class="ss">   sd </span><span class="sc">{</span>scores<span class="sc">.</span>std()<span class="sc">:6.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Flat   mean  50.38   sd  28.69
 Easy   mean  90.99   sd   9.07
@@ -575,12 +554,12 @@ Split  mean  59.82   sd  22.94</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">3.2</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>panels <span class="op">=</span> [(flat, <span class="st">"Flat exam"</span>), (easy, <span class="st">"Easy exam"</span>), (split, <span class="st">"Split exam"</span>)]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (marks, title) <span class="kw">in</span> <span class="bu">zip</span>(axes, panels):</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    ax.hist(marks, bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">102</span>, <span class="dv">2</span>), color<span class="op">=</span><span class="st">"#adb5bd"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (scores, title) <span class="kw">in</span> <span class="bu">zip</span>(axes, panels):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    ax.hist(scores, bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">102</span>, <span class="dv">2</span>), color<span class="op">=</span><span class="st">"#adb5bd"</span>,</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            edgecolor<span class="op">=</span><span class="st">"white"</span>, linewidth<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    ax.axvline(marks.mean(), color<span class="op">=</span><span class="st">"#c92a2a"</span>, linewidth<span class="op">=</span><span class="fl">1.6</span>, zorder<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    ax.axvline(scores.mean(), color<span class="op">=</span><span class="st">"#c92a2a"</span>, linewidth<span class="op">=</span><span class="fl">1.6</span>, zorder<span class="op">=</span><span class="dv">4</span>)</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Mark"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Score"</span>)</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    ax.spines[[<span class="st">"top"</span>, <span class="st">"right"</span>]].set_visible(<span class="va">False</span>)</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">"Number of students"</span>)</span>
@@ -589,7 +568,7 @@ Split  mean  59.82   sd  22.94</code></pre>
 <div id="fig-three-populations" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-three-populations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="normal-distribution-central-limit-theorem_files/figure-html/fig-three-populations-output-1.png" width="828" height="317" class="figure-img">
+<img src="normal-distribution-central-limit-theorem_files/figure-html/fig-three-populations-output-1.png" width="828" height="316" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-three-populations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3.2: Three year groups, none of them hump-shaped. Ten thousand students in each.
@@ -601,11 +580,11 @@ Figure&nbsp;3.2: Three year groups, none of them hump-shaped. Ten thousand stude
 <p>Nothing in <a href="#fig-three-populations" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> resembles our year group.</p>
 <p>Now draw twenty students from each, take the average, and do it five thousand times.</p>
 <div id="sample-means-three" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sample_means(marks, n, generator, repeats<span class="op">=</span><span class="dv">5_000</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sample_means(scores, n, generator, repeats<span class="op">=</span><span class="dv">5_000</span>):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Draw n students, take their mean, repeat."""</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    picked <span class="op">=</span> np.array([generator.choice(marks.size, n, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    picked <span class="op">=</span> np.array([generator.choice(scores.size, n, replace<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                       <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(repeats)])</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> marks[picked].mean(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> scores[picked].mean(axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>flat_means <span class="op">=</span> sample_means(flat, <span class="dv">20</span>, rng_shapes)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>easy_means <span class="op">=</span> sample_means(easy, <span class="dv">20</span>, rng_shapes)</span>
@@ -643,8 +622,7 @@ Figure&nbsp;3.3: Means of twenty students, drawn 5,000 times from each of the th
 </section>
 <section id="sec-how-large" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="sec-how-large"><span class="header-section-number">3.3</span> How large is large enough?</h2>
-<p>Not every average is normal, though. Think about what an individual score is: it is the average of a sample of size one. So look back at the easy exam in <a href="#fig-three-populations" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>, the one jammed against full marks with a tail trailing left. That is what averages look like when <span class="math inline">\(n = 1\)</span>, and nothing about it is bell-shaped.</p>
-<p>So we can infer that the distribution of averages approaches a normal distribution as the sample size gets larger. Let’s see how the shape changes.</p>
+<p>Not every average is normal, though. Think about what an individual score is: it is the average of a sample of size one. So look back at the easy exam in <a href="#fig-three-populations" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>, the one jammed against full marks with a tail trailing left. That is what averages look like when <span class="math inline">\(n = 1\)</span>, and nothing about it is bell-shaped. At twenty it was. So somewhere in between the shape changed, and we can infer that the distribution of averages approaches a normal distribution as the sample size gets larger. Let’s see how.</p>
 <div id="cell-fig-n-sweep" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">100</span>]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -799,13 +777,14 @@ Figure&nbsp;3.5: The 5,000 sample means from chapter 2, with bands at one, two a
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1154,8 +1133,8 @@ Figure&nbsp;3.5: The 5,000 sample means from chapter 2, with bands at one, two a
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./why-compare-means.html" class="pagination-link" aria-label="Why Compare Means?">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Why Compare Means?</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./t-test.html" class="pagination-link" aria-label="$t$-Test">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

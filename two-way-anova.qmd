@@ -1,5 +1,0 @@
-# Two-Way ANOVA {#sec-two-way-anova}
-
-::: {.callout-note appearance="simple"}
-Stub — outline only.
-:::
