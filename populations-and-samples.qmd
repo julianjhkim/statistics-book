@@ -310,9 +310,14 @@ Everything in this chapter came in pairs: a number describing the whole populati
 
 | | Population | Sample |
 |---|---|---|
+| A number from it is called | a **parameter** | a **statistic** |
 | Size | $N$ | $n$ |
 | Mean | $\mu$, "mu" | $\bar{x}$, "x bar" |
 | Variance | $\sigma^2$, "sigma squared" | $s^2$, "s squared" |
 | Standard deviation | $\sigma$, "sigma" | $s$, "s" |
 
 Greek letters on the left, ordinary letters on the right. That is the convention across most of statistics: Greek for the truth you are after, Roman for the estimate you have in hand.
+
+The two names in the first row are worth keeping apart, because the difference is not just vocabulary. A parameter is a fixed number. The year group has one mean, it is 69.99, and it will still be 69.99 tomorrow. You just cannot see it. A statistic is computed from a sample, so it is available to you, and it changes every time you draw a new one. Our twenty students gave 70.80; another twenty would give something else.
+
+So the whole problem of this book, in one line: parameters are what we want and cannot see, statistics are what we can see and do not want.
