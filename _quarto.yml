@@ -17,6 +17,7 @@ book:
         - populations-and-samples.qmd
         - standard-error.qmd
         - normal-distribution-central-limit-theorem.qmd
+        - confidence-interval.qmd
     - part: "Part 2: Comparing Means"
       chapters:
         - t-test.qmd

@@ -380,6 +380,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normal Distribution and Central Limit Theorem</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./confidence-interval.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Confidence Interval</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -394,19 +400,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./t-test.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./anova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ancova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
   </div>
 </li>
       </ul>
@@ -447,7 +453,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-10-28</p>
+      <p class="date-modified">2026-10-29</p>
     </div>
   </div>
     
@@ -470,7 +476,7 @@ window.Quarto = {
 </div>
 <section id="sec-want-and-have" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="sec-want-and-have"><span class="header-section-number">1.1</span> What we want and what we have</h2>
-<p>10,000 students are in the same year at university, and all of them took the same statistics exam, marked out of 100. Somebody wants to know how the year did.</p>
+<p>10,000 students are in the same year at university, and all of them took the same statistics exam, scored out of 100. Somebody wants to know how the year did.</p>
 <div id="setup" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -479,23 +485,23 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>POPULATION_SIZE <span class="op">=</span> <span class="dv">10_000</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The mark every student in the year received.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The score every student in the year received.</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>population <span class="op">=</span> np.clip(np.<span class="bu">round</span>(rng.normal(<span class="dv">70</span>, <span class="dv">12</span>, POPULATION_SIZE)), <span class="dv">0</span>, <span class="dv">100</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Students:     </span><span class="sc">{</span>population<span class="sc">.</span>size<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Lowest mark:  </span><span class="sc">{</span>population<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.0f}</span><span class="ss">"</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Highest mark: </span><span class="sc">{</span>population<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.0f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Students:      </span><span class="sc">{</span>population<span class="sc">.</span>size<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Lowest score:  </span><span class="sc">{</span>population<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.0f}</span><span class="ss">"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Highest score: </span><span class="sc">{</span>population<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.0f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Students:     10000
-Lowest mark:  22
-Highest mark: 100</code></pre>
+<pre><code>Students:      10000
+Lowest score:  22
+Highest score: 100</code></pre>
 </div>
 </div>
 <div id="cell-fig-population" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ax.hist(population, bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">20</span>, <span class="dv">102</span>, <span class="dv">2</span>), color<span class="op">=</span><span class="st">"#adb5bd"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        edgecolor<span class="op">=</span><span class="st">"white"</span>, linewidth<span class="op">=</span><span class="fl">0.4</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Mark"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Score"</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Number of students"</span>)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.spines[[<span class="st">"top"</span>, <span class="st">"right"</span>]].set_visible(<span class="va">False</span>)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -506,14 +512,14 @@ Highest mark: 100</code></pre>
 <img src="populations-and-samples_files/figure-html/fig-population-output-1.png" width="594" height="358" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-population-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.1: All ten thousand marks. Most students are somewhere in the sixties and seventies, with thinner tails reaching down to the twenties and up to full marks.
+Figure&nbsp;1.1: All 10,000 scores. Most students are somewhere in the sixties and seventies, with thinner tails reaching down to the twenties and up to the top of the scale.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>The group we want to describe is the <strong>population</strong>. Here it is every student in the year. A population is not always people, and it is not always this easy to point at, but the idea is the same: it is the full set of things the question is about.</p>
-<p>We have all ten thousand marks on screen because we invented them. Real life is not like that. Getting every data point is nearly impossible in most cases. What actually happens is that somebody takes twenty students and works with those.</p>
+<p>We have all 10,000 scores on screen because we invented them. Real life is not like that. Getting every data point is nearly impossible in most cases. What actually happens is that somebody takes 20 students and works with those.</p>
 <div id="sample" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>our_sample <span class="op">=</span> rng.choice(population, <span class="dv">20</span>, replace<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.sort(our_sample).astype(<span class="bu">int</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -521,11 +527,11 @@ Figure&nbsp;1.1: All ten thousand marks. Most students are somewhere in the sixt
 <pre><code>[41 53 54 55 55 64 64 64 69 70 71 73 74 80 80 84 87 90 92 96]</code></pre>
 </div>
 </div>
-<p>Those twenty marks are a <strong>sample</strong>. The sample is what we can see. The population is what we want to know about.</p>
+<p>Those 20 scores are a <strong>sample</strong>. The sample is what we can see. The population is what we want to know about.</p>
 </section>
 <section id="sec-the-mean" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="sec-the-mean"><span class="header-section-number">1.2</span> Squeezing a group into one number</h2>
-<p>Twenty marks is already more than you can hold in your head, and ten thousand is a lost cause. To say anything at all about a group we have to compress it, and the usual compression is the <strong>mean</strong>: add the values up, divide by how many there are. You have done this since school.</p>
+<p>Even 20 scores is already more than you can hold in your head, and 10,000 is a lost cause. To say anything at all about a group we have to compress it, and the usual compression is the <strong>mean</strong>: add the values up, divide by how many there are. You have done this since school.</p>
 <p>For a population of <span class="math inline">\(N\)</span> values:</p>
 <p><span class="math display">\[
 \mu = \frac{1}{N} \sum_{i=1}^{N} x_i
@@ -549,7 +555,7 @@ Figure&nbsp;1.1: All ten thousand marks. Most students are somewhere in the sixt
 <p>In practice you will almost always be working with the sample formulas. We show both here because the pair of them is what makes the distinction visible. The population is the thing you want to know about, and the sample is the thing you can see. The two are not the same, and the notation is how we keep track of which is which.</p>
 </div>
 </div>
-<p>Our twenty students, then:</p>
+<p>Our 20 students, then:</p>
 <p><span class="math display">\[
 \bar{x} = \frac{1}{20}\,(41 + 53 + 54 + \cdots + 92 + 96) = 70.80
 \]</span></p>
@@ -561,11 +567,11 @@ Figure&nbsp;1.1: All ten thousand marks. Most students are somewhere in the sixt
 Mean of all 10,000 students:    69.99</code></pre>
 </div>
 </div>
-<p>Compressing also makes groups comparable. Twenty marks and ten thousand marks cannot be held up against each other in any useful way, but 70.80 and 69.99 can. That is why the mean turns up everywhere: it reduces any group, of any size, to something you can put next to any other group.</p>
+<p>Compressing also makes groups comparable. 20 scores and 10,000 scores cannot be held up against each other in any useful way, but 70.80 and 69.99 can. That is why the mean turns up everywhere: it reduces any group, of any size, to something you can put next to any other group.</p>
 </section>
 <section id="sec-standard-deviation" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="sec-standard-deviation"><span class="header-section-number">1.3</span> What the mean leaves out</h2>
-<p>Compression throws information away, and it is worth knowing what went missing. Here are two more draws of ten students from the same year.</p>
+<p>Compression throws information away, and it is worth knowing what went missing. Here are two more draws of 10 students from the same year.</p>
 <div id="two-draws" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rng_demo <span class="op">=</span> np.random.default_rng(<span class="dv">58324</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -591,7 +597,7 @@ Draw 2: [41 52 61 61 64 67 71 90 90 97]  mean 69.4</code></pre>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">30</span>, <span class="dv">100</span>)</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="op">-</span><span class="fl">0.6</span>, <span class="fl">1.6</span>)</span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>ax.set_yticks([])</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Mark"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Score"</span>)</span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>ax.spines[[<span class="st">"top"</span>, <span class="st">"right"</span>, <span class="st">"left"</span>]].set_visible(<span class="va">False</span>)</span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
@@ -601,13 +607,13 @@ Draw 2: [41 52 61 61 64 67 71 90 90 97]  mean 69.4</code></pre>
 <img src="populations-and-samples_files/figure-html/fig-same-mean-output-1.png" width="571" height="253" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-same-mean-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.2: Two draws of ten students with nearly the same mean. The mean cannot tell them apart, and yet nobody would mistake one for the other.
+Figure&nbsp;1.2: Two draws of 10 students with nearly the same mean. The mean cannot tell them apart, and yet nobody would mistake one for the other.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>The two means are half a mark apart, which is as close as makes no difference. Everything else about these groups is different. Draw 1 is nine students bunched between 61 and 71 with one straggler at 79. Draw 2 contains a student who scored 41 and a student who scored 97, and not much in the middle. Report only the means and nobody would ever suspect.</p>
+<p>The two means are half a point apart, which is as close as makes no difference. Everything else about these groups is different. Draw 1 is 9 students bunched between 61 and 71 with one straggler at 79. Draw 2 contains a student who scored 41 and a student who scored 97, and not much in the middle. Report only the means and nobody would ever suspect.</p>
 <p>So we want a second number, one that says how far from the mean students tend to sit. The obvious first attempt is to average the distances <span class="math inline">\(x_i - \mu\)</span>, and it does not work. The students above the mean and the students below it cancel out exactly, and the answer comes back zero every time, for every group that has ever existed. Squaring each distance gets rid of the sign. Average the squares, then take a square root to get back to the original units, and you have the <strong>standard deviation</strong>:</p>
 <p><span class="math display">\[
 \sigma = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x_i - \mu)^2}
@@ -617,7 +623,7 @@ Figure&nbsp;1.2: Two draws of ten students with nearly the same mean. The mean c
 s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2}
 \]</span></p>
 <p>Why <span class="math inline">\(n - 1\)</span> and not <span class="math inline">\(n\)</span>? Hold that thought. For now, let us just run the formula.</p>
-<p>Draw 1 has ten students and a mean of <span class="math inline">\(\bar{x} = 68.9\)</span>:</p>
+<p>Draw 1 has 10 students and a mean of <span class="math inline">\(\bar{x} = 68.9\)</span>:</p>
 <p><span class="math display">\[
 \begin{aligned}
 s &amp;= \sqrt{\frac{1}{10-1}\left[(61 - 68.9)^2 + (66 - 68.9)^2 + \cdots + (79 - 68.9)^2\right]} \\[6pt]
@@ -648,7 +654,7 @@ s^2 = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2
 </section>
 <section id="sec-sample-is-not-population" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="sec-sample-is-not-population"><span class="header-section-number">1.4</span> The sample is not the population</h2>
-<p>Back to the twenty students from the start of the chapter. We now have both numbers for the sample (the 20 students) and the population (the 10,000 students).</p>
+<p>Back to the 20 students from the start of the chapter. We now have both numbers for the sample (the 20 students) and the population (the 10,000 students).</p>
 <div id="sample-vs-population" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"                 mean      sd"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Our 20 students </span><span class="sc">{</span>our_sample<span class="sc">.</span>mean()<span class="sc">:7.2f}</span><span class="ss"> </span><span class="sc">{</span>our_sample<span class="sc">.</span>std(ddof<span class="op">=</span><span class="dv">1</span>)<span class="sc">:7.2f}</span><span class="ss">"</span>)</span>
@@ -659,10 +665,10 @@ Our 20 students   70.80   14.87
 All 10,000        69.99   11.94</code></pre>
 </div>
 </div>
-<p>Close, but the numbers are different. There is no mistake to find here. The mean of those twenty marks is computed perfectly. It is simply the mean of twenty people rather than ten thousand.</p>
+<p>Close, but the numbers are different. There is no mistake to find here. The mean of those 20 scores is computed perfectly. It is simply the mean of 20 people rather than 10,000.</p>
 <p>An <strong>estimator</strong> is any recipe for turning a sample into a guess about a population. <span class="math inline">\(\bar{x}\)</span> is an estimator of <span class="math inline">\(\mu\)</span>, and <span class="math inline">\(s\)</span> is an estimator of <span class="math inline">\(\sigma\)</span>.</p>
-<p>Every estimate misses. That is not the interesting part. The interesting part is whether the misses have a favourite direction.</p>
-<p>We can settle that by brute force. Draw ten students, write down the estimate, put them back, and do it five thousand times.</p>
+<p>Every estimate misses. That is not the interesting part. The interesting part is whether the misses have a favorite direction.</p>
+<p>We can settle that by brute force. Draw 20 students, write down the estimate, put them back, and do it 5,000 times.</p>
 <div id="repeated-samples" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>rng_sim <span class="op">=</span> np.random.default_rng(<span class="dv">2024</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -685,7 +691,7 @@ All 10,000        69.99   11.94</code></pre>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        ha<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>ax.scatter([sample_means.mean()], [<span class="dv">0</span>], s<span class="op">=</span><span class="dv">160</span>, marker<span class="op">=</span><span class="st">"D"</span>, color<span class="op">=</span><span class="st">"#495057"</span>,</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>           edgecolor<span class="op">=</span><span class="st">"white"</span>, linewidth<span class="op">=</span><span class="fl">1.2</span>, zorder<span class="op">=</span><span class="dv">5</span>, clip_on<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Mean of a sample of 10 students"</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Mean of a sample of 20 students"</span>)</span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Number of samples"</span>)</span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>ax.spines[[<span class="st">"top"</span>, <span class="st">"right"</span>]].set_visible(<span class="va">False</span>)</span>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
@@ -699,7 +705,7 @@ All 10,000        69.99   11.94</code></pre>
 <img src="populations-and-samples_files/figure-html/fig-sample-means-output-1.png" width="594" height="327" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sample-means-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.3: The mean of each of 5,000 samples of ten students. The red line is the true mean of the year and the diamond is the average of all 5,000 estimates.
+Figure&nbsp;1.3: The mean of each of 5,000 samples of 20 students. The red line is the true mean of the year and the diamond is the average of all 5,000 estimates.
 </figcaption>
 </figure>
 </div>
@@ -709,10 +715,10 @@ Figure&nbsp;1.3: The mean of each of 5,000 samples of ten students. The red line
 True mean of the year:             69.99</code></pre>
 </div>
 </div>
-<p>Individual samples land anywhere from the high fifties to the low eighties, which is a reminder of how little ten students can promise you. But average all five thousand estimates together and you get the diamond, and the diamond sits on the line.</p>
-<p>That is what makes the sample mean an <strong>unbiased</strong> estimator. Some of the five thousand came out above 69.99 and some below, evenly matched on both counts: as many too high as too low, and by about as much. Average them and the overshoots and the undershoots wipe each other out, leaving the true value behind.</p>
+<p>Individual samples land anywhere from the high fifties to the high seventies, which is a reminder of how little 20 students can promise you. But average all 5,000 estimates together and you get the diamond, and the diamond sits on the line.</p>
+<p>That is what makes the sample mean an <strong>unbiased</strong> estimator. Some of the 5,000 came out above 69.99 and some below, evenly matched on both counts: as many too high as too low, and by about as much. Average them and the overshoots and the undershoots wipe each other out, leaving the true value behind.</p>
 <p>Note what this does not say. It does not say your sample statistics is not exactly the same as the population one. Unbiased is a property of the procedure, not a promise about the one result you happen to be holding.</p>
-<p>Now the same five thousand draws, with the spread estimated two ways.</p>
+<p>Now the same 5,000 draws, with the spread estimated two ways.</p>
 <div id="cell-fig-variance-denominators" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pairs <span class="op">=</span> [(axes[<span class="dv">0</span>], variance_n1, <span class="vs">r"divided by </span><span class="dv">$</span><span class="vs">n-1</span><span class="dv">$</span><span class="vs">"</span>),</span>
@@ -730,7 +736,7 @@ True mean of the year:             69.99</code></pre>
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].text(population.var(), axes[<span class="dv">0</span>].get_ylim()[<span class="dv">1</span>] <span class="op">*</span> <span class="fl">1.15</span>,</span>
 <span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>             <span class="ss">f"true variance </span><span class="sc">{</span>population<span class="sc">.</span>var()<span class="sc">:.1f}</span><span class="ss">"</span>, color<span class="op">=</span><span class="st">"#c92a2a"</span>,</span>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>             ha<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"Variance estimated from a sample of 10 students"</span>)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"Variance estimated from a sample of 20 students"</span>)</span>
 <span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
 <span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"True variance:        </span><span class="sc">{</span>population<span class="sc">.</span>var()<span class="sc">:7.1f}</span><span class="ss">"</span>)</span>
@@ -776,11 +782,11 @@ Ratio, n version:       0.948</code></pre>
 Answer
 </summary>
 <p>It came out too small, and the reason is a property of the mean itself: of all the points you could measure from, the sample mean is the one that makes <span class="math inline">\(\sum (x_i - c)^2\)</span> as small as it can be. No other value of <span class="math inline">\(c\)</span> does better.</p>
-<p>Try it. Take Draw 1, whose mean is 68.9, and feed a few different centres through the same sum.</p>
+<p>Try it. Take Draw 1, whose mean is 68.9, and feed a few different centers through the same sum.</p>
 <div id="least-squares-check" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> centre <span class="kw">in</span> [<span class="dv">60</span>, <span class="dv">65</span>, <span class="fl">68.9</span>, <span class="fl">69.99</span>, <span class="dv">75</span>]:</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> ((draw_1 <span class="op">-</span> centre) <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>()</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"measured from </span><span class="sc">{</span>centre<span class="sc">:6.2f}</span><span class="ss">:  </span><span class="sc">{</span>total<span class="sc">:7.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> center <span class="kw">in</span> [<span class="dv">60</span>, <span class="dv">65</span>, <span class="fl">68.9</span>, <span class="fl">69.99</span>, <span class="dv">75</span>]:</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> ((draw_1 <span class="op">-</span> center) <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>()</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"measured from </span><span class="sc">{</span>center<span class="sc">:6.2f}</span><span class="ss">:  </span><span class="sc">{</span>total<span class="sc">:7.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>measured from  60.00:    971.0
 measured from  65.00:    331.0
@@ -790,7 +796,7 @@ measured from  75.00:    551.0</code></pre>
 </div>
 </div>
 <p>Nothing beats 68.9, and nothing ever will, for any sample. Note in particular the row for 69.99, the true <span class="math inline">\(\mu\)</span>: it comes out higher. Had we been able to measure from the real population mean, the distances would have added up to more.</p>
-<p>That is the bias in one line. We always measure from the centre that flatters this particular sample, so every sample looks tighter than the population it came from. A smaller denominator makes the answer bigger, which is the direction we need, and <span class="math inline">\(n - 1\)</span> makes it bigger by exactly the right amount.</p>
+<p>That is the bias in one line. We always measure from the center that flatters this particular sample, so every sample looks tighter than the population it came from. A smaller denominator makes the answer bigger, which is the direction we need, and <span class="math inline">\(n - 1\)</span> makes it bigger by exactly the right amount.</p>
 </details>
 </div>
 </div>
@@ -849,7 +855,7 @@ measured from  75.00:    551.0</code></pre>
 </tbody>
 </table>
 <p>Greek letters on the left, ordinary letters on the right. That is the convention across most of statistics: Greek for the truth you are after, Roman for the estimate you have in hand.</p>
-<p>The two names in the first row are worth keeping apart, because the difference is not just vocabulary. A parameter is a fixed number. The year group has one mean, it is 69.99, and it will still be 69.99 tomorrow. You just cannot see it. A statistic is computed from a sample, so it is available to you, and it changes every time you draw a new one. Our twenty students gave 70.80; another twenty would give something else.</p>
+<p>The two names in the first row are worth keeping apart, because the difference is not just vocabulary. A parameter is a fixed number. The year group has one mean, it is 69.99, and it will still be 69.99 tomorrow. You just cannot see it. A statistic is computed from a sample, so it is available to you, and it changes every time you draw a new one. Our 20 students gave 70.80; another 20 would give something else.</p>
 <p>So the whole problem of this book, in one line: parameters are what we want and cannot see, statistics are what we can see and do not want.</p>
 
 

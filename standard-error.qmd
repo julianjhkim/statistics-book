@@ -4,11 +4,15 @@
 **Keywords:** standard error, variance addition, variance multiplication
 :::
 
+The last chapter set up the two sides of the problem. The population is what we want to know about, the sample is what we can see, and each gets its own mean and standard deviation: $\mu$ and $\sigma$ for the 10,000 students, $\bar{x}$ and $s$ for our 20.
+
 ## How far off is one estimate? {#sec-how-far-off}
 
-The last chapter ended on a good note and a loose thread. The good note: the sample mean is unbiased, so the procedure does not lean. The loose thread: you do not get five thousand samples. You get one, and that one landed anywhere between the high fifties and the high seventies.
+The standard deviation in the last chapter measured how far one student sits from the average student. That is a fact about the year group, and it is not the fact we need.
 
-So the question left over is how far off a single estimate is likely to be.
+What we need is how far our sample mean sits from the true mean. In other words, how our mean of 20 students really represents the true mean.
+
+The 5,000 estimates from the last chapter are still sitting there. Measure their spread.
 
 ```{python}
 #| label: setup
@@ -17,7 +21,7 @@ import matplotlib.pyplot as plt
 
 rng = np.random.default_rng(68)
 
-# The same ten thousand students, and the same twenty we drew from them.
+# The same 10,000 students, and the same 20 we drew from them.
 population = np.clip(np.round(rng.normal(70, 12, 10_000)), 0, 100)
 our_sample = rng.choice(population, 20, replace=False)
 
@@ -42,15 +46,15 @@ print(f"Spread of the sample means: {means_20.std(ddof=1):.2f}")
 
 We now have two numbers that both describe scatter, and they are not measuring the same thing.
 
-The 11.94 from @fig-population is about students. It says that a student picked at random sits about 12 marks away from the average student, which is why the year contains people in the forties and people in the nineties.
+The 11.94 from @fig-population is about students. It says that a student picked at random sits about 12 points away from the average student, which is why the year contains people in the forties and people in the nineties.
 
-The 2.66 from @fig-sample-means is about estimates. It says that when you draw twenty students and average them, the number you get sits about 3 marks away from the true 69.99.
+The 2.66 from @fig-sample-means is about estimates. It says that when you draw 20 students and average them, the number you get sits about 3 points away from the true 69.99.
 
-Estimates scatter far less than students do, and averaging is the reason. A sample of twenty will usually contain a few strong students and a few weak ones, and they cancel in the average. For a sample mean to land far from the truth, the draw has to go the same way twenty times over, and that is rare.
+Estimates scatter far less than students do, and averaging is the reason. A sample of 20 will usually contain a few strong students and a few weak ones, and they cancel in the average. For a sample mean to land far from the truth, the draw has to go the same way 20 times over, and that is rare.
 
 ## The width depends on how many you ask {#sec-depends-on-n}
 
-Twenty students was our choice, and nothing forced it. What happens if we ask more?
+20 students was our choice, and nothing forced it. What happens if we ask more?
 
 ```{python}
 #| label: fig-three-sizes
@@ -72,9 +76,9 @@ axes[2].set_xlabel("Mean of one sample")
 plt.show()
 ```
 
-All three are centered on the truth, which is the unbiasedness from the last chapter turning up three more times. What changes is the width. Twenty students give estimates scattered by about 2.7 marks, sixty by about 1.5, a hundred and eighty by about 0.9.
+All three are centered on the truth, which is the unbiasedness from the last chapter turning up three more times. What changes is the width. 20 students give estimates scattered by about 2.7 points, 60 by about 1.5, 180 by about 0.9.
 
-Now compare the first panel with the last. We went from 20 students to 180, nine times as many, and the scatter fell from 2.7 to 0.9. That is not a ninth of what it was. It is about a third.
+Now compare the first panel with the last. We went from 20 students to 180, 9 times as many, and the scatter fell from 2.7 to 0.9. That is not a ninth of what it was. It is about a third.
 
 ```{python}
 #| label: ratios
@@ -92,7 +96,7 @@ Tripling the sample cut the scatter to 0.58 of what it had been, and $1/\sqrt{3}
 
 There is a practical sting in that. Halving your uncertainty costs four times the data: 20 students to 80. Halving it again costs four times that, 320 students in all, for the same size of improvement. This is why sample sizes in real studies plateau where they do, and why "just collect more data" stops being useful advice quite quickly.
 
-But a pattern is not an explanation, and this pattern is incomplete besides. It says how the scatter responds when $n$ changes. It says nothing about where the scatter starts from. Twenty students gave us 2.7 marks, and so far nothing explains why 2.7 rather than 27 or 0.27.
+But a pattern is not an explanation, and this pattern is incomplete besides. It says how the scatter responds when $n$ changes. It says nothing about where the scatter starts from. 20 students gave us 2.7 points, and so far nothing explains why 2.7 rather than 27 or 0.27.
 
 ## Addition and multiplication of variances {#sec-addition-and-multiplication}
 
@@ -144,7 +148,7 @@ plt.show()
 
 Compare the middle panel with the right one. Same range, same average, and twice the variance on the right.
 
-The difference is in the shape. Two dice added pile up in the middle, because there are six ways to make 7 and only one way to make 12. A doubled die is flat: 2, 4, 6, 8, 10 and 12 all turn up equally often, so it visits the extremes six times as readily. Reaching the edge of the range is easy in one case and rare in the other, and that is exactly what the variance is measuring.
+The difference is in the shape. Two dice added pile up in the middle, because there are 6 ways to make 7 and only 1 way to make 12. A doubled die is flat: 2, 4, 6, 8, 10 and 12 all turn up equally often, so it visits the extremes 6 times as readily. Reaching the edge of the range is easy in one case and rare in the other, and that is exactly what the variance is measuring.
 
 Each panel follows a rule.
 
@@ -154,7 +158,7 @@ $$
 \operatorname{Var}(X + Y) = \operatorname{Var}(X) + \operatorname{Var}(Y)
 $$
 
-**Multiplication.** A doubled die has variance 11.667, exactly 4 times 2.917. Not 2 times. Multiply a quantity by $c$ (here, 2) and its variance is multiplied by $c^2$ (here, 4). Why squared? Because variance is measured in squared units, and doubling the units multiplies the squares by four.
+**Multiplication.** A doubled die has variance 11.667, exactly 4 times 2.917. Not 2 times. Multiply a quantity by $c$ (here, 2) and its variance is multiplied by $c^2$ (here, 4). Why squared? Because variance is measured in squared units, and doubling the units multiplies the squares by 4.
 
 $$
 \operatorname{Var}(cX) = c^2 \operatorname{Var}(X)
@@ -162,9 +166,9 @@ $$
 
 ## Back to the exam {#sec-back-to-the-exam}
 
-The rules we just learned are about adding and scaling, and a sample mean is an addition followed by a division: add twenty students, divide by twenty.
+The rules we just learned are about adding and scaling, and a sample mean is an addition followed by a division: add 20 students, divide by 20.
 
-Adding twenty students, each with variance $\sigma^2$, gives a total with variance $20\,\sigma^2$. Dividing by twenty multiplies that by $\frac{1}{20^2}$.
+Adding 20 students, each with variance $\sigma^2$, gives a total with variance $20\,\sigma^2$. Dividing by 20 multiplies that by $\frac{1}{20^2}$.
 
 $$
 \operatorname{Var}(\bar{x}) = \frac{20\,\sigma^2}{20^2} = \frac{\sigma^2}{20}
@@ -206,10 +210,10 @@ print(f"Estimated standard error, s / sqrt(n) =  "
       f"{our_sample.std(ddof=1) / np.sqrt(20):.2f}")
 ```
 
-So what do these numbers actually tell us? Both 70.80 and 14.87 describe the twenty students in front of us. The 3.33 does something different, and the difference is worth being clear about.
+So what do these numbers actually tell us? Both 70.80 and 14.87 describe the 20 students in front of us. The 3.33 does something different, and the difference is worth being clear about.
 
 $s = 14.87$ is a fact about students. Some of them did well and some did badly. Knowing the population perfectly would not make this number go away, because students really do differ from one another.
 
-$s/\sqrt{n} = 3.33$ is a fact about our answer. It says how much the 70.80 might move if we had walked into the room on a different day and met twenty different students. That is a property of our procedure, not of the students.
+$s/\sqrt{n} = 3.33$ is a fact about our answer. It says how much the 70.80 might move if we had walked into the room on a different day and met 20 different students. That is a property of our procedure, not of the students.
 
-The $n$ is what carries that distinction. With $s = 14.87$ and twenty students the standard error is 3.33. With the same $s$ and two thousand students it is 0.33. The students are equally varied in both cases, and the answer is ten times firmer in the second.
+The $n$ is what carries that distinction. With $s = 14.87$ and 20 students the standard error is 3.33. With the same $s$ and 2,000 students it is 0.33. The students are equally varied in both cases, and the answer is 10 times firmer in the second.

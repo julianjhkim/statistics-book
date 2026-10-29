@@ -2,15 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://julianjhkim.github.io/statistics-book/populations-and-samples.html</loc>
-    <lastmod>2026-10-28T00:40:10.573Z</lastmod>
+    <lastmod>2026-10-29T09:54:47.821Z</lastmod>
   </url>
   <url>
     <loc>https://julianjhkim.github.io/statistics-book/standard-error.html</loc>
-    <lastmod>2026-09-18T21:17:15.742Z</lastmod>
+    <lastmod>2026-10-29T09:54:47.821Z</lastmod>
   </url>
   <url>
     <loc>https://julianjhkim.github.io/statistics-book/normal-distribution-central-limit-theorem.html</loc>
-    <lastmod>2026-09-18T21:25:04.563Z</lastmod>
+    <lastmod>2026-10-29T09:54:47.821Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julianjhkim.github.io/statistics-book/confidence-interval.html</loc>
+    <lastmod>2026-10-29T09:44:01.224Z</lastmod>
   </url>
   <url>
     <loc>https://julianjhkim.github.io/statistics-book/t-test.html</loc>

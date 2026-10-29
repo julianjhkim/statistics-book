@@ -380,6 +380,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normal Distribution and Central Limit Theorem</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./confidence-interval.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Confidence Interval</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -394,19 +400,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./t-test.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./anova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ancova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
   </div>
 </li>
       </ul>
@@ -447,7 +453,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-19</p>
+      <p class="date-modified">2026-10-29</p>
     </div>
   </div>
     
@@ -468,17 +474,19 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>The last chapter set up the two sides of the problem. The population is what we want to know about, the sample is what we can see, and each gets its own mean and standard deviation: <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> for the 10,000 students, <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(s\)</span> for our 20.</p>
 <section id="sec-how-far-off" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="sec-how-far-off"><span class="header-section-number">2.1</span> How far off is one estimate?</h2>
-<p>The last chapter ended on a good note and a loose thread. The good note: the sample mean is unbiased, so the procedure does not lean. The loose thread: you do not get five thousand samples. You get one, and that one landed anywhere between the high fifties and the high seventies.</p>
-<p>So the question left over is how far off a single estimate is likely to be.</p>
+<p>The standard deviation in the last chapter measured how far one student sits from the average student. That is a fact about the year group, and it is not the fact we need.</p>
+<p>What we need is how far our sample mean sits from the true mean. In other words, how our mean of 20 students really represents the true mean.</p>
+<p>The 5,000 estimates from the last chapter are still sitting there. Measure their spread.</p>
 <div id="setup" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">68</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The same ten thousand students, and the same twenty we drew from them.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The same 10,000 students, and the same 20 we drew from them.</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>population <span class="op">=</span> np.clip(np.<span class="bu">round</span>(rng.normal(<span class="dv">70</span>, <span class="dv">12</span>, <span class="dv">10_000</span>)), <span class="dv">0</span>, <span class="dv">100</span>)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>our_sample <span class="op">=</span> rng.choice(population, <span class="dv">20</span>, replace<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
@@ -506,13 +514,13 @@ True spread of the year: 11.94</code></pre>
 </div>
 </div>
 <p>We now have two numbers that both describe scatter, and they are not measuring the same thing.</p>
-<p>The 11.94 from <a href="populations-and-samples.html#fig-population" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> is about students. It says that a student picked at random sits about 12 marks away from the average student, which is why the year contains people in the forties and people in the nineties.</p>
-<p>The 2.66 from <a href="populations-and-samples.html#fig-sample-means" class="quarto-xref">Figure&nbsp;<span>1.3</span></a> is about estimates. It says that when you draw twenty students and average them, the number you get sits about 3 marks away from the true 69.99.</p>
-<p>Estimates scatter far less than students do, and averaging is the reason. A sample of twenty will usually contain a few strong students and a few weak ones, and they cancel in the average. For a sample mean to land far from the truth, the draw has to go the same way twenty times over, and that is rare.</p>
+<p>The 11.94 from <a href="populations-and-samples.html#fig-population" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> is about students. It says that a student picked at random sits about 12 points away from the average student, which is why the year contains people in the forties and people in the nineties.</p>
+<p>The 2.66 from <a href="populations-and-samples.html#fig-sample-means" class="quarto-xref">Figure&nbsp;<span>1.3</span></a> is about estimates. It says that when you draw 20 students and average them, the number you get sits about 3 points away from the true 69.99.</p>
+<p>Estimates scatter far less than students do, and averaging is the reason. A sample of 20 will usually contain a few strong students and a few weak ones, and they cancel in the average. For a sample mean to land far from the truth, the draw has to go the same way 20 times over, and that is rare.</p>
 </section>
 <section id="sec-depends-on-n" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="sec-depends-on-n"><span class="header-section-number">2.2</span> The width depends on how many you ask</h2>
-<p>Twenty students was our choice, and nothing forced it. What happens if we ask more?</p>
+<p>20 students was our choice, and nothing forced it. What happens if we ask more?</p>
 <div id="cell-fig-three-sizes" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>means_60 <span class="op">=</span> sample_means(<span class="dv">60</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>means_180 <span class="op">=</span> sample_means(<span class="dv">180</span>)</span>
@@ -542,8 +550,8 @@ Figure&nbsp;2.1: Sample means from 5,000 draws at three different sample sizes. 
 </div>
 </div>
 </div>
-<p>All three are centered on the truth, which is the unbiasedness from the last chapter turning up three more times. What changes is the width. Twenty students give estimates scattered by about 2.7 marks, sixty by about 1.5, a hundred and eighty by about 0.9.</p>
-<p>Now compare the first panel with the last. We went from 20 students to 180, nine times as many, and the scatter fell from 2.7 to 0.9. That is not a ninth of what it was. It is about a third.</p>
+<p>All three are centered on the truth, which is the unbiasedness from the last chapter turning up three more times. What changes is the width. 20 students give estimates scattered by about 2.7 points, 60 by about 1.5, 180 by about 0.9.</p>
+<p>Now compare the first panel with the last. We went from 20 students to 180, 9 times as many, and the scatter fell from 2.7 to 0.9. That is not a ninth of what it was. It is about a third.</p>
 <div id="ratios" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> means_20.std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -562,7 +570,7 @@ For comparison:  1/sqrt(3) = 0.58,   1/sqrt(9) = 0.33</code></pre>
 </div>
 <p>Tripling the sample cut the scatter to 0.58 of what it had been, and <span class="math inline">\(1/\sqrt{3}\)</span> is 0.58. Multiplying the sample by nine cut it to 0.33, and <span class="math inline">\(1/\sqrt{9}\)</span> is a third exactly. Whatever governs this, the sample size is getting in under a square root.</p>
 <p>There is a practical sting in that. Halving your uncertainty costs four times the data: 20 students to 80. Halving it again costs four times that, 320 students in all, for the same size of improvement. This is why sample sizes in real studies plateau where they do, and why “just collect more data” stops being useful advice quite quickly.</p>
-<p>But a pattern is not an explanation, and this pattern is incomplete besides. It says how the scatter responds when <span class="math inline">\(n\)</span> changes. It says nothing about where the scatter starts from. Twenty students gave us 2.7 marks, and so far nothing explains why 2.7 rather than 27 or 0.27.</p>
+<p>But a pattern is not an explanation, and this pattern is incomplete besides. It says how the scatter responds when <span class="math inline">\(n\)</span> changes. It says nothing about where the scatter starts from. 20 students gave us 2.7 points, and so far nothing explains why 2.7 rather than 27 or 0.27.</p>
 </section>
 <section id="sec-addition-and-multiplication" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="sec-addition-and-multiplication"><span class="header-section-number">2.3</span> Addition and multiplication of variances</h2>
@@ -633,21 +641,21 @@ Figure&nbsp;2.2: Three ways to end up with a number. Adding two dice and doublin
 </div>
 </div>
 <p>Compare the middle panel with the right one. Same range, same average, and twice the variance on the right.</p>
-<p>The difference is in the shape. Two dice added pile up in the middle, because there are six ways to make 7 and only one way to make 12. A doubled die is flat: 2, 4, 6, 8, 10 and 12 all turn up equally often, so it visits the extremes six times as readily. Reaching the edge of the range is easy in one case and rare in the other, and that is exactly what the variance is measuring.</p>
+<p>The difference is in the shape. Two dice added pile up in the middle, because there are 6 ways to make 7 and only 1 way to make 12. A doubled die is flat: 2, 4, 6, 8, 10 and 12 all turn up equally often, so it visits the extremes 6 times as readily. Reaching the edge of the range is easy in one case and rare in the other, and that is exactly what the variance is measuring.</p>
 <p>Each panel follows a rule.</p>
 <p><strong>Addition.</strong> Two dice added have variance 5.833, exactly double the 2.917 of one. Add quantities that have nothing to do with each other and their variances add.</p>
 <p><span class="math display">\[
 \operatorname{Var}(X + Y) = \operatorname{Var}(X) + \operatorname{Var}(Y)
 \]</span></p>
-<p><strong>Multiplication.</strong> A doubled die has variance 11.667, exactly 4 times 2.917. Not 2 times. Multiply a quantity by <span class="math inline">\(c\)</span> (here, 2) and its variance is multiplied by <span class="math inline">\(c^2\)</span> (here, 4). Why squared? Because variance is measured in squared units, and doubling the units multiplies the squares by four.</p>
+<p><strong>Multiplication.</strong> A doubled die has variance 11.667, exactly 4 times 2.917. Not 2 times. Multiply a quantity by <span class="math inline">\(c\)</span> (here, 2) and its variance is multiplied by <span class="math inline">\(c^2\)</span> (here, 4). Why squared? Because variance is measured in squared units, and doubling the units multiplies the squares by 4.</p>
 <p><span class="math display">\[
 \operatorname{Var}(cX) = c^2 \operatorname{Var}(X)
 \]</span></p>
 </section>
 <section id="sec-back-to-the-exam" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="sec-back-to-the-exam"><span class="header-section-number">2.4</span> Back to the exam</h2>
-<p>The rules we just learned are about adding and scaling, and a sample mean is an addition followed by a division: add twenty students, divide by twenty.</p>
-<p>Adding twenty students, each with variance <span class="math inline">\(\sigma^2\)</span>, gives a total with variance <span class="math inline">\(20\,\sigma^2\)</span>. Dividing by twenty multiplies that by <span class="math inline">\(\frac{1}{20^2}\)</span>.</p>
+<p>The rules we just learned are about adding and scaling, and a sample mean is an addition followed by a division: add 20 students, divide by 20.</p>
+<p>Adding 20 students, each with variance <span class="math inline">\(\sigma^2\)</span>, gives a total with variance <span class="math inline">\(20\,\sigma^2\)</span>. Dividing by 20 multiplies that by <span class="math inline">\(\frac{1}{20^2}\)</span>.</p>
 <p><span class="math display">\[
 \operatorname{Var}(\bar{x}) = \frac{20\,\sigma^2}{20^2} = \frac{\sigma^2}{20}
 \qquad\text{, so in general}\qquad
@@ -688,10 +696,10 @@ Spread observed in the simulation           =  2.66</code></pre>
 Estimated standard error, s / sqrt(n) =  3.33</code></pre>
 </div>
 </div>
-<p>So what do these numbers actually tell us? Both 70.80 and 14.87 describe the twenty students in front of us. The 3.33 does something different, and the difference is worth being clear about.</p>
+<p>So what do these numbers actually tell us? Both 70.80 and 14.87 describe the 20 students in front of us. The 3.33 does something different, and the difference is worth being clear about.</p>
 <p><span class="math inline">\(s = 14.87\)</span> is a fact about students. Some of them did well and some did badly. Knowing the population perfectly would not make this number go away, because students really do differ from one another.</p>
-<p><span class="math inline">\(s/\sqrt{n} = 3.33\)</span> is a fact about our answer. It says how much the 70.80 might move if we had walked into the room on a different day and met twenty different students. That is a property of our procedure, not of the students.</p>
-<p>The <span class="math inline">\(n\)</span> is what carries that distinction. With <span class="math inline">\(s = 14.87\)</span> and twenty students the standard error is 3.33. With the same <span class="math inline">\(s\)</span> and two thousand students it is 0.33. The students are equally varied in both cases, and the answer is ten times firmer in the second.</p>
+<p><span class="math inline">\(s/\sqrt{n} = 3.33\)</span> is a fact about our answer. It says how much the 70.80 might move if we had walked into the room on a different day and met 20 different students. That is a property of our procedure, not of the students.</p>
+<p>The <span class="math inline">\(n\)</span> is what carries that distinction. With <span class="math inline">\(s = 14.87\)</span> and 20 students the standard error is 3.33. With the same <span class="math inline">\(s\)</span> and 2,000 students it is 0.33. The students are equally varied in both cases, and the answer is 10 times firmer in the second.</p>
 
 
 </section>

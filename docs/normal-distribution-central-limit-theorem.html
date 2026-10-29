@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./t-test.html" rel="next">
+<link href="./confidence-interval.html" rel="next">
 <link href="./standard-error.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -380,6 +380,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normal Distribution and Central Limit Theorem</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./confidence-interval.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Confidence Interval</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -394,19 +400,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./t-test.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./anova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ancova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">ANCOVA</span></span></a>
   </div>
 </li>
       </ul>
@@ -446,7 +452,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-09-19</p>
+      <p class="date-modified">2026-10-29</p>
     </div>
   </div>
     
@@ -470,8 +476,8 @@ window.Quarto = {
 <p>In the last chapter we measured the standard error of the mean: 3.3. We said it was about the estimator rather than about the students, and left it there. This chapter is about what has to be true before a number like that can tell us anything.</p>
 <section id="sec-not-a-percentage" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="sec-not-a-percentage"><span class="header-section-number">3.1</span> A standard error is not a percentage</h2>
-<p>Here is a question it ought to answer. Our twenty students averaged 70.80. Suppose a colleague draws a different twenty from the same year and gets 74. Is that a normal amount of disagreement between two samples, or did one of us get unlucky?</p>
-<p>We know the estimates scatter by about 3.3 points, so a gap of three between two of them does not look alarming. But “does not look alarming” is not an answer. We would like to say how often two samples disagree by that much.</p>
+<p>Here is a question it ought to answer. Our 20 students averaged 70.80. Suppose a colleague draws a different 20 from the same year and gets 74. Is that a normal amount of disagreement between two samples, or did one of us get unlucky?</p>
+<p>We know the estimates scatter by about 3.3 points, so a gap of 3 between two of them does not look alarming. But “does not look alarming” is not an answer. We would like to say how often two samples disagree by that much.</p>
 <div id="setup" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -535,7 +541,7 @@ Standard error, right: 3.3</code></pre>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A test that separates nobody: scores land anywhere between 0 and 100.</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>flat <span class="op">=</span> np.<span class="bu">round</span>(rng_shapes.uniform(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10_000</span>))</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># A test that is far too easy: nearly everyone near full marks, a tail below.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># A test that is far too easy: nearly everyone near the top of the scale, a tail below.</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>easy <span class="op">=</span> np.clip(np.<span class="bu">round</span>(<span class="dv">100</span> <span class="op">-</span> rng_shapes.exponential(<span class="dv">9</span>, <span class="dv">10_000</span>)), <span class="dv">0</span>, <span class="dv">100</span>)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># A test you either prepared for or did not: two clumps, little in between.</span></span>
@@ -571,14 +577,14 @@ Split  mean  59.82   sd  22.94</code></pre>
 <img src="normal-distribution-central-limit-theorem_files/figure-html/fig-three-populations-output-1.png" width="828" height="316" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-three-populations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.2: Three year groups, none of them hump-shaped. Ten thousand students in each.
+Figure&nbsp;3.2: Three year groups, none of them hump-shaped. 10,000 students in each.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>Nothing in <a href="#fig-three-populations" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> resembles our year group.</p>
-<p>Now draw twenty students from each, take the average, and do it five thousand times.</p>
+<p>Now draw 20 students from each, take the average, and do it 5,000 times.</p>
 <div id="sample-means-three" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sample_means(scores, n, generator, repeats<span class="op">=</span><span class="dv">5_000</span>):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Draw n students, take their mean, repeat."""</span></span>
@@ -612,7 +618,7 @@ Figure&nbsp;3.2: Three year groups, none of them hump-shaped. Ten thousand stude
 <img src="normal-distribution-central-limit-theorem_files/figure-html/fig-three-means-output-1.png" width="817" height="317" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-three-means-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.3: Means of twenty students, drawn 5,000 times from each of the three year groups above. Whatever the students looked like, their averages do not.
+Figure&nbsp;3.3: Means of 20 students, drawn 5,000 times from each of the three year groups above. Whatever the students looked like, their averages do not.
 </figcaption>
 </figure>
 </div>
@@ -622,7 +628,7 @@ Figure&nbsp;3.3: Means of twenty students, drawn 5,000 times from each of the th
 </section>
 <section id="sec-how-large" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="sec-how-large"><span class="header-section-number">3.3</span> How large is large enough?</h2>
-<p>Not every average is normal, though. Think about what an individual score is: it is the average of a sample of size one. So look back at the easy exam in <a href="#fig-three-populations" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>, the one jammed against full marks with a tail trailing left. That is what averages look like when <span class="math inline">\(n = 1\)</span>, and nothing about it is bell-shaped. At twenty it was. So somewhere in between the shape changed, and we can infer that the distribution of averages approaches a normal distribution as the sample size gets larger. Let’s see how.</p>
+<p>Not every average is normal, though. Think about what an individual score is: it is the average of a sample of size 1. So look back at the easy exam in <a href="#fig-three-populations" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>, the one jammed against the top of the scale with a tail trailing left. That is what averages look like when <span class="math inline">\(n = 1\)</span>, and nothing about it is bell-shaped. At 20 it was. So somewhere in between the shape changed, and we can infer that the distribution of averages approaches a normal distribution as the sample size gets larger. Let’s see how.</p>
 <div id="cell-fig-n-sweep" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">100</span>]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -650,18 +656,19 @@ Figure&nbsp;3.4: Averages from the easy exam at eight sample sizes. Each panel i
 </div>
 </div>
 </div>
-<p>At <span class="math inline">\(n = 2\)</span> the averages are still dragged hard to the left. By ten the tail is thinner, by twenty it is faint, and from thirty onwards the panels are hard to tell apart from a bell.</p>
-<p>Thirty is where the convention sits, and you will see it quoted everywhere as the point at which a sample counts as large.</p>
-<p>Which means the twenty students we have been using all along are, technically, not quite large enough. However, we happen to know our year group is bell-shaped, because we built it that way, so twenty was never going to cause us trouble.</p>
-<p>Treat the thirty as a rule of thumb rather than a threshold. Nothing happens at thirty that did not happen at twenty-nine. Plenty of real research runs on fewer than thirty subjects, for reasons of cost, access or ethics.</p>
+<p>At <span class="math inline">\(n = 2\)</span> the averages are still dragged hard to the left. By 10 the tail is thinner, by 20 it is faint, and from 30 onwards the panels are hard to tell apart from a bell.</p>
+<p>The convention sits at 30, and you will see it quoted everywhere as the point at which a sample counts as large.</p>
+<p>Which means the 20 students we have been using all along are, technically, not quite large enough. However, we happen to know our year group is bell-shaped, because we built it that way, so 20 was never going to cause us trouble.</p>
+<p>Treat the 30 as a rule of thumb rather than a threshold. Nothing happens at 30 that did not happen at 29. Plenty of real research runs on fewer than 30 subjects, for reasons of cost, access or ethics.</p>
 <p>The fact that the distribution of sample means approaches a normal distribution as the sample size gets larger, whatever the shape of the original population, is called the <strong>central limit theorem</strong>.</p>
 <p>This is why the normal distribution is everywhere in statistics, and it is not because measurements are usually normal. Incomes trail off to the right or reaction times cannot go below zero. The normal distribution turns up because we spend our time looking at averages, and averages go normal even when the things being averaged do not.</p>
 </section>
 <section id="sec-68-95-997" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="sec-68-95-997"><span class="header-section-number">3.4</span> 68, 95, 99.7</h2>
-<p>So the shape of the sample means is settled. It is normal. And the normal distribution comes with fixed proportions attached. A given number of standard deviations either side of the center always captures the same fraction of the whole, no matter what is being measured.</p>
-<p>For sample means the relevant standard deviation is the standard error. One note before we use it. We work with the true standard error of 2.67 here rather than our sample’s estimate of 3.3, because drawing bands needs one fixed width and <span class="math inline">\(s\)</span> changes from sample to sample. What happens when the estimate is all you have and when you don’t have the population parameters is the next chapter’s problem.</p>
-<p>So mark out three bands either side of the true mean: one standard error wide (2.67 points), two (5.34), and three (8.01). Then count how many of the 5,000 estimates fall inside each.</p>
+<p>So the shape of the sample means is settled. It is normal aka bell shaped. And the normal distribution comes with fixed proportions attached. A given number of standard deviations either side of the center always captures the same fraction of the whole, no matter what is being measured.</p>
+<p>For a distribution of sample means, that standard deviation is called the standard error instead. It is <span class="math inline">\(11.94 / \sqrt{20} = 2.67\)</span> points.</p>
+<p>We can compute that only because we invented the 10,000 students and can look up <span class="math inline">\(\sigma\)</span>. A real study cannot. It would have to build a standard error out of its own sample’s spread: for our 20 students that is <span class="math inline">\(14.87 / \sqrt{20} = 3.33\)</span>, and it would come out differently for every sample. One clear picture needs one fixed width, so we borrow the true mean and the true standard deviation here.</p>
+<p>Mark out three bands either side of the true mean: 2.67 points wide, then 5.34, then 8.01. Then count how many of the 5,000 estimates fall inside each.</p>
 <div id="coverage" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>rng_sim <span class="op">=</span> np.random.default_rng(<span class="dv">2024</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>means_20 <span class="op">=</span> sample_means(population, <span class="dv">20</span>, rng_sim)</span>
@@ -698,16 +705,16 @@ Within 3 standard errors ( 8.01 points):  99.8%</code></pre>
 <img src="normal-distribution-central-limit-theorem_files/figure-html/fig-bands-output-1.png" width="594" height="327" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bands-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.5: The 5,000 sample means from chapter 2, with bands at one, two and three standard errors either side of the true mean.
+Figure&nbsp;3.5: The 5,000 sample means from chapter 2, with bands at 1, 2 and 3 standard errors either side of the true mean.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>Around 68%, 95% and 99.7%. Those three numbers are worth memorizing.</p>
-<p>So a standard error of 2.67 means this: about two thirds of the time, a sample of twenty lands within 2.67 points of the truth, and about 95 times in 100, within 5.34.</p>
-<p>One thing still stands in the way. Every number in this section leaned on the true standard error of 2.67, and we only have that because we built the year group ourselves and can look up <span class="math inline">\(\sigma\)</span>. A real study cannot. It gets 3.3 like we got in the last chapter, or whatever its own sample hands over, with no way to check it against anything.</p>
-<p>So we are closer than we were. The shape is settled, and with the shape comes the arithmetic that turns a standard error into a percentage. What is still missing is a way to use that arithmetic when the standard error is itself only an estimate.</p>
+<p>So a standard error of 2.67 means this: about two thirds of the time a sample of 20 lands within 2.67 points of the truth, and about 95 times in 100, within 5.34.</p>
+<p>And that was the second thing we borrowed. The width came from <span class="math inline">\(\sigma\)</span>. The centering came from <span class="math inline">\(\mu\)</span>: every band in <a href="#fig-bands" class="quarto-xref">Figure&nbsp;<span>3.5</span></a> was drawn around 69.99.</p>
+<p>A real study has neither. It has one sample, one mean, and one <span class="math inline">\(s\)</span>. The next chapter starts there.</p>
 
 
 </section>
@@ -1133,8 +1140,8 @@ Figure&nbsp;3.5: The 5,000 sample means from chapter 2, with bands at one, two a
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./t-test.html" class="pagination-link" aria-label="$t$-Test">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title"><span class="math inline">\(t\)</span>-Test</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./confidence-interval.html" class="pagination-link" aria-label="Confidence Interval">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Confidence Interval</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

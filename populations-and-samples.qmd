@@ -6,7 +6,7 @@
 
 ## What we want and what we have {#sec-want-and-have}
 
-10,000 students are in the same year at university, and all of them took the same statistics exam, marked out of 100. Somebody wants to know how the year did.
+10,000 students are in the same year at university, and all of them took the same statistics exam, scored out of 100. Somebody wants to know how the year did.
 
 ```{python}
 #| label: setup
@@ -17,21 +17,21 @@ rng = np.random.default_rng(68)
 
 POPULATION_SIZE = 10_000
 
-# The mark every student in the year received.
+# The score every student in the year received.
 population = np.clip(np.round(rng.normal(70, 12, POPULATION_SIZE)), 0, 100)
 
-print(f"Students:     {population.size}")
-print(f"Lowest mark:  {population.min():.0f}")
-print(f"Highest mark: {population.max():.0f}")
+print(f"Students:      {population.size}")
+print(f"Lowest score:  {population.min():.0f}")
+print(f"Highest score: {population.max():.0f}")
 ```
 
 ```{python}
 #| label: fig-population
-#| fig-cap: "All ten thousand marks. Most students are somewhere in the sixties and seventies, with thinner tails reaching down to the twenties and up to full marks."
+#| fig-cap: "All 10,000 scores. Most students are somewhere in the sixties and seventies, with thinner tails reaching down to the twenties and up to the top of the scale."
 fig, ax = plt.subplots(figsize=(7, 4))
 ax.hist(population, bins=range(20, 102, 2), color="#adb5bd",
         edgecolor="white", linewidth=0.4)
-ax.set_xlabel("Mark")
+ax.set_xlabel("Score")
 ax.set_ylabel("Number of students")
 ax.spines[["top", "right"]].set_visible(False)
 plt.show()
@@ -39,7 +39,7 @@ plt.show()
 
 The group we want to describe is the **population**. Here it is every student in the year. A population is not always people, and it is not always this easy to point at, but the idea is the same: it is the full set of things the question is about.
 
-We have all ten thousand marks on screen because we invented them. Real life is not like that. Getting every data point is nearly impossible in most cases. What actually happens is that somebody takes twenty students and works with those.
+We have all 10,000 scores on screen because we invented them. Real life is not like that. Getting every data point is nearly impossible in most cases. What actually happens is that somebody takes 20 students and works with those.
 
 ```{python}
 #| label: sample
@@ -47,11 +47,11 @@ our_sample = rng.choice(population, 20, replace=False)
 print(np.sort(our_sample).astype(int))
 ```
 
-Those twenty marks are a **sample**. The sample is what we can see. The population is what we want to know about.
+Those 20 scores are a **sample**. The sample is what we can see. The population is what we want to know about.
 
 ## Squeezing a group into one number {#sec-the-mean}
 
-Twenty marks is already more than you can hold in your head, and ten thousand is a lost cause. To say anything at all about a group we have to compress it, and the usual compression is the **mean**: add the values up, divide by how many there are. You have done this since school.
+Even 20 scores is already more than you can hold in your head, and 10,000 is a lost cause. To say anything at all about a group we have to compress it, and the usual compression is the **mean**: add the values up, divide by how many there are. You have done this since school.
 
 For a population of $N$ values:
 
@@ -75,7 +75,7 @@ The two formulas above are the same arithmetic written twice. Statisticians use 
 In practice you will almost always be working with the sample formulas. We show both here because the pair of them is what makes the distinction visible. The population is the thing you want to know about, and the sample is the thing you can see. The two are not the same, and the notation is how we keep track of which is which.
 :::
 
-Our twenty students, then:
+Our 20 students, then:
 
 $$
 \bar{x} = \frac{1}{20}\,(41 + 53 + 54 + \cdots + 92 + 96) = 70.80
@@ -87,11 +87,11 @@ print(f"Mean of the 20 students we saw: {our_sample.mean():.2f}")
 print(f"Mean of all 10,000 students:    {population.mean():.2f}")
 ```
 
-Compressing also makes groups comparable. Twenty marks and ten thousand marks cannot be held up against each other in any useful way, but 70.80 and 69.99 can. That is why the mean turns up everywhere: it reduces any group, of any size, to something you can put next to any other group.
+Compressing also makes groups comparable. 20 scores and 10,000 scores cannot be held up against each other in any useful way, but 70.80 and 69.99 can. That is why the mean turns up everywhere: it reduces any group, of any size, to something you can put next to any other group.
 
 ## What the mean leaves out {#sec-standard-deviation}
 
-Compression throws information away, and it is worth knowing what went missing. Here are two more draws of ten students from the same year.
+Compression throws information away, and it is worth knowing what went missing. Here are two more draws of 10 students from the same year.
 
 ```{python}
 #| label: two-draws
@@ -106,7 +106,7 @@ print("Draw 2:", np.sort(draw_2).astype(int), f" mean {draw_2.mean():.1f}")
 
 ```{python}
 #| label: fig-same-mean
-#| fig-cap: "Two draws of ten students with nearly the same mean. The mean cannot tell them apart, and yet nobody would mistake one for the other."
+#| fig-cap: "Two draws of 10 students with nearly the same mean. The mean cannot tell them apart, and yet nobody would mistake one for the other."
 fig, ax = plt.subplots(figsize=(7, 2.6))
 for y, data, label in [(1, draw_1, "Draw 1"), (0, draw_2, "Draw 2")]:
     ax.scatter(data, np.full_like(data, y, dtype=float), s=60,
@@ -118,12 +118,12 @@ ax.axvline(69, color="#c92a2a", linewidth=1.5, zorder=2)
 ax.set_xlim(30, 100)
 ax.set_ylim(-0.6, 1.6)
 ax.set_yticks([])
-ax.set_xlabel("Mark")
+ax.set_xlabel("Score")
 ax.spines[["top", "right", "left"]].set_visible(False)
 plt.show()
 ```
 
-The two means are half a mark apart, which is as close as makes no difference. Everything else about these groups is different. Draw 1 is nine students bunched between 61 and 71 with one straggler at 79. Draw 2 contains a student who scored 41 and a student who scored 97, and not much in the middle. Report only the means and nobody would ever suspect.
+The two means are half a point apart, which is as close as makes no difference. Everything else about these groups is different. Draw 1 is 9 students bunched between 61 and 71 with one straggler at 79. Draw 2 contains a student who scored 41 and a student who scored 97, and not much in the middle. Report only the means and nobody would ever suspect.
 
 So we want a second number, one that says how far from the mean students tend to sit. The obvious first attempt is to average the distances $x_i - \mu$, and it does not work. The students above the mean and the students below it cancel out exactly, and the answer comes back zero every time, for every group that has ever existed. Squaring each distance gets rid of the sign. Average the squares, then take a square root to get back to the original units, and you have the **standard deviation**:
 
@@ -139,7 +139,7 @@ $$
 
 Why $n - 1$ and not $n$? Hold that thought. For now, let us just run the formula.
 
-Draw 1 has ten students and a mean of $\bar{x} = 68.9$:
+Draw 1 has 10 students and a mean of $\bar{x} = 68.9$:
 
 $$
 \begin{aligned}
@@ -173,7 +173,7 @@ $$
 
 ## The sample is not the population {#sec-sample-is-not-population}
 
-Back to the twenty students from the start of the chapter. We now have both numbers for the sample (the 20 students) and the population (the 10,000 students).
+Back to the 20 students from the start of the chapter. We now have both numbers for the sample (the 20 students) and the population (the 10,000 students).
 
 ```{python}
 #| label: sample-vs-population
@@ -182,13 +182,13 @@ print(f"Our 20 students {our_sample.mean():7.2f} {our_sample.std(ddof=1):7.2f}")
 print(f"All 10,000      {population.mean():7.2f} {population.std():7.2f}")
 ```
 
-Close, but the numbers are different. There is no mistake to find here. The mean of those twenty marks is computed perfectly. It is simply the mean of twenty people rather than ten thousand.
+Close, but the numbers are different. There is no mistake to find here. The mean of those 20 scores is computed perfectly. It is simply the mean of 20 people rather than 10,000.
 
 An **estimator** is any recipe for turning a sample into a guess about a population. $\bar{x}$ is an estimator of $\mu$, and $s$ is an estimator of $\sigma$.
 
-Every estimate misses. That is not the interesting part. The interesting part is whether the misses have a favourite direction.
+Every estimate misses. That is not the interesting part. The interesting part is whether the misses have a favorite direction.
 
-We can settle that by brute force. Draw ten students, write down the estimate, put them back, and do it five thousand times.
+We can settle that by brute force. Draw 20 students, write down the estimate, put them back, and do it 5,000 times.
 
 ```{python}
 #| label: repeated-samples
@@ -207,7 +207,7 @@ variance_n = draws.var(axis=1, ddof=0)    # divided by n
 
 ```{python}
 #| label: fig-sample-means
-#| fig-cap: "The mean of each of 5,000 samples of ten students. The red line is the true mean of the year and the diamond is the average of all 5,000 estimates."
+#| fig-cap: "The mean of each of 5,000 samples of 20 students. The red line is the true mean of the year and the diamond is the average of all 5,000 estimates."
 fig, ax = plt.subplots(figsize=(7, 3.4))
 ax.hist(sample_means, bins=50, color="#adb5bd", edgecolor="white", linewidth=0.4)
 ax.axvline(population.mean(), color="#c92a2a", linewidth=1.8, zorder=4)
@@ -216,7 +216,7 @@ ax.text(population.mean(), ax.get_ylim()[1] * 1.02,
         ha="center", fontsize=10)
 ax.scatter([sample_means.mean()], [0], s=160, marker="D", color="#495057",
            edgecolor="white", linewidth=1.2, zorder=5, clip_on=False)
-ax.set_xlabel("Mean of a sample of 10 students")
+ax.set_xlabel("Mean of a sample of 20 students")
 ax.set_ylabel("Number of samples")
 ax.spines[["top", "right"]].set_visible(False)
 plt.show()
@@ -225,13 +225,13 @@ print(f"Average of the 5,000 sample means: {sample_means.mean():.2f}")
 print(f"True mean of the year:             {population.mean():.2f}")
 ```
 
-Individual samples land anywhere from the high fifties to the low eighties, which is a reminder of how little ten students can promise you. But average all five thousand estimates together and you get the diamond, and the diamond sits on the line.
+Individual samples land anywhere from the high fifties to the high seventies, which is a reminder of how little 20 students can promise you. But average all 5,000 estimates together and you get the diamond, and the diamond sits on the line.
 
-That is what makes the sample mean an **unbiased** estimator. Some of the five thousand came out above 69.99 and some below, evenly matched on both counts: as many too high as too low, and by about as much. Average them and the overshoots and the undershoots wipe each other out, leaving the true value behind.
+That is what makes the sample mean an **unbiased** estimator. Some of the 5,000 came out above 69.99 and some below, evenly matched on both counts: as many too high as too low, and by about as much. Average them and the overshoots and the undershoots wipe each other out, leaving the true value behind.
 
 Note what this does not say. It does not say your sample statistics is not exactly the same as the population one. Unbiased is a property of the procedure, not a promise about the one result you happen to be holding.
 
-Now the same five thousand draws, with the spread estimated two ways.
+Now the same 5,000 draws, with the spread estimated two ways.
 
 ```{python}
 #| label: fig-variance-denominators
@@ -252,7 +252,7 @@ for ax, estimates, label in pairs:
 axes[0].text(population.var(), axes[0].get_ylim()[1] * 1.15,
              f"true variance {population.var():.1f}", color="#c92a2a",
              ha="center", fontsize=10)
-axes[1].set_xlabel("Variance estimated from a sample of 10 students")
+axes[1].set_xlabel("Variance estimated from a sample of 20 students")
 plt.show()
 
 print(f"True variance:        {population.var():7.1f}")
@@ -279,18 +279,18 @@ We repair the variance by dividing by $n - 1$ rather than $n$. Why does a smalle
 
 It came out too small, and the reason is a property of the mean itself: of all the points you could measure from, the sample mean is the one that makes $\sum (x_i - c)^2$ as small as it can be. No other value of $c$ does better.
 
-Try it. Take Draw 1, whose mean is 68.9, and feed a few different centres through the same sum.
+Try it. Take Draw 1, whose mean is 68.9, and feed a few different centers through the same sum.
 
 ```{python}
 #| label: least-squares-check
-for centre in [60, 65, 68.9, 69.99, 75]:
-    total = ((draw_1 - centre) ** 2).sum()
-    print(f"measured from {centre:6.2f}:  {total:7.1f}")
+for center in [60, 65, 68.9, 69.99, 75]:
+    total = ((draw_1 - center) ** 2).sum()
+    print(f"measured from {center:6.2f}:  {total:7.1f}")
 ```
 
 Nothing beats 68.9, and nothing ever will, for any sample. Note in particular the row for 69.99, the true $\mu$: it comes out higher. Had we been able to measure from the real population mean, the distances would have added up to more.
 
-That is the bias in one line. We always measure from the centre that flatters this particular sample, so every sample looks tighter than the population it came from. A smaller denominator makes the answer bigger, which is the direction we need, and $n - 1$ makes it bigger by exactly the right amount.
+That is the bias in one line. We always measure from the center that flatters this particular sample, so every sample looks tighter than the population it came from. A smaller denominator makes the answer bigger, which is the direction we need, and $n - 1$ makes it bigger by exactly the right amount.
 
 </details>
 :::
@@ -318,6 +318,6 @@ Everything in this chapter came in pairs: a number describing the whole populati
 
 Greek letters on the left, ordinary letters on the right. That is the convention across most of statistics: Greek for the truth you are after, Roman for the estimate you have in hand.
 
-The two names in the first row are worth keeping apart, because the difference is not just vocabulary. A parameter is a fixed number. The year group has one mean, it is 69.99, and it will still be 69.99 tomorrow. You just cannot see it. A statistic is computed from a sample, so it is available to you, and it changes every time you draw a new one. Our twenty students gave 70.80; another twenty would give something else.
+The two names in the first row are worth keeping apart, because the difference is not just vocabulary. A parameter is a fixed number. The year group has one mean, it is 69.99, and it will still be 69.99 tomorrow. You just cannot see it. A statistic is computed from a sample, so it is available to you, and it changes every time you draw a new one. Our 20 students gave 70.80; another 20 would give something else.
 
 So the whole problem of this book, in one line: parameters are what we want and cannot see, statistics are what we can see and do not want.
