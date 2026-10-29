@@ -1,5 +1,5 @@
 # $t$-Test {#sec-t-test}
 
 ::: {.callout-note appearance="simple"}
-Stub — outline only.
+Stub: outline only.
 :::

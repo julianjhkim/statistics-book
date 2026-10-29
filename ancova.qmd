@@ -1,5 +1,5 @@
 # ANCOVA {#sec-ancova}
 
 ::: {.callout-note appearance="simple"}
-Stub — outline only.
+Stub: outline only.
 :::
