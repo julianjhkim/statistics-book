@@ -1,0 +1,81 @@
+## The $t$ distribution {#sec-t-distribution}
+
+The fix is to stop using 1.96. If dividing by an estimated standard error makes us miss too often, then we need to reach further than 1.96 standard errors to get our 95% back.
+
+How much further? We can measure it. For each of the 5,000 samples, work out how far its mean fell from the truth, measured in that sample's own estimated standard errors.
+
+```{python}
+#| label: t-statistic
+t_statistic = (means - truth) / estimated_se
+
+print(f"Middle 95% of these runs from "
+      f"{np.quantile(t_statistic, 0.025):.2f} to {np.quantile(t_statistic, 0.975):.2f}")
+```
+
+```{python}
+#| label: fig-t-shape
+#| fig-cap: "Distance from the truth across 5,000 samples, measured two ways. Dividing by the true standard error gives the gray histogram. Dividing by each sample's own estimate gives the red outline, which has heavier tails."
+z_statistic = (means - truth) / se
+
+bins = np.linspace(-5, 5, 80)
+fig, ax = plt.subplots(figsize=(7, 3.6))
+ax.hist(z_statistic, bins=bins, color="#adb5bd", alpha=0.85,
+        label="divided by the true standard error")
+ax.hist(t_statistic, bins=bins, histtype="step", color="#c92a2a", linewidth=1.8,
+        label="divided by s / sqrt(n)")
+ax.legend(frameon=False, fontsize=9)
+ax.set_yticks([])
+ax.set_xlabel("Distance from the truth, in standard errors")
+ax.spines[["top", "right", "left"]].set_visible(False)
+plt.show()
+
+print(f"Beyond 1.96, using the true standard error: "
+      f"{np.mean(np.abs(z_statistic) > 1.96):.1%}")
+print(f"Beyond 1.96, using s:                       "
+      f"{np.mean(np.abs(t_statistic) > 1.96):.1%}")
+```
+
+The two shapes are nearly the same in the middle and differ at the edges. The red outline has fatter tails, which is another way of saying that extreme results happen more often than the normal distribution expects. Some of those extremes are cases where the mean was unremarkable but $s$ came out small, making an ordinary gap look large once divided.
+
+This heavier-tailed shape is the **$t$ distribution**. It is what you get when you take a normal quantity and divide it by an estimate of its own spread, and it depends on how many observations went into that estimate. The parameter is $n - 1$, the same quantity we met when correcting the variance, and it goes by the name **degrees of freedom**. With 20 students that is 19.
+
+For 19 degrees of freedom the exact multiplier for a 95% interval is 2.093, which is close to what our simulation found. Use it and the coverage comes back.
+
+```{python}
+#| label: coverage-with-t
+lower_t = means - 2.093 * estimated_se
+upper_t = means + 2.093 * estimated_se
+covered_t = (lower_t <= truth) & (truth <= upper_t)
+
+print(f"1.96 with the true standard error: {covered.mean():.1%}")
+print(f"1.96 with s:                       {covered_s.mean():.1%}")
+print(f"2.093 with s:                      {covered_t.mean():.1%}")
+```
+
+The multiplier depends on the sample size, and it shrinks as samples grow. At $n = 20$ it is 2.093, at $n = 50$ about 2.01, at $n = 200$ about 1.97. Larger samples give a steadier $s$, so less extra width is needed, and by the time $n$ is in the hundreds the $t$ multiplier and 1.96 are indistinguishable. The correction matters most in exactly the studies that can least afford it.
+
+## One interval, from one sample {#sec-our-interval}
+
+Everything in this chapter so far has used 5,000 samples and a population we can look up. Now do it once, the way a real study would.
+
+```{python}
+#| label: our-interval
+n = our_sample.size
+mean = our_sample.mean()
+estimate_se = our_sample.std(ddof=1) / np.sqrt(n)
+margin = 2.093 * estimate_se
+
+print(f"Sample mean:              {mean:.2f}")
+print(f"Estimated standard error: {estimate_se:.2f}")
+print(f"95% interval:             {mean - margin:.2f} to {mean + margin:.2f}")
+```
+
+From 20 students and nothing else, we can say the year average is somewhere between 63.8 and 77.8. Every number in that sentence came out of the 20 scores in front of us.
+
+It is a wide interval, and that is honest rather than disappointing. 20 students is not much, and this sample happened to be a scattered one, so it drew a wider interval than most. Narrowing it means more students, at the $\sqrt{n}$ rate that @sec-standard-error warned about.
+
+The true mean is 69.99, so this interval did catch it. We only know that because we built the population ourselves. In a real study the check is not available, and the 95% is the whole of what you get: not a guarantee about your interval, but a record of how often the procedure works.
+
+That is where Part 1 ends. We started unable to say anything about a population we could not measure, and we can now put a range on it and state how often such ranges are right.
+
+Part 2 asks the question that most research actually begins with. Not what one group's average is, but whether two groups differ.
