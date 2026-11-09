@@ -212,8 +212,41 @@ plt.show()
 
 Around 68%, 95% and 99.7%. Those three numbers are worth memorizing.
 
-So a standard error of 2.67 means this: about two thirds of the time a sample of 20 lands within 2.67 points of the truth, and about 95 times in 100, within 5.34.
+So a standard error of 2.67 means this: about two thirds of the time (68%) a sample of 20 lands within 2.67 points of the truth, and about 95 times in 100, within 5.34.
 
 And that was the second thing we borrowed. The width came from $\sigma$. The centering came from $\mu$: every band in @fig-bands was drawn around 69.99.
 
 A real study has neither. It has one sample, one mean, and one $s$. The next chapter starts there.
+
+::: {.callout-note}
+## Why you will hear "2 standard errors"
+
+People say "2 standard errors" for 95%, and the last chapter said it too. The exact multiplier is 1.96.
+
+```{python}
+#| label: fig-196
+#| fig-cap: "The band at 1.96 standard errors either side of the true mean, drawn over the 5,000 sample means."
+fig, ax = plt.subplots(figsize=(7, 3.4))
+ax.hist(means_20, bins=60, color="#adb5bd", edgecolor="white", linewidth=0.3)
+ax.axvspan(truth - 1.96 * se, truth + 1.96 * se, color="#dee2e6", zorder=0)
+ax.axvline(truth, color="#c92a2a", linewidth=1.8, zorder=4)
+ax.set_xlabel("Mean of 20 students")
+ax.set_ylabel("Number of samples")
+ax.spines[["top", "right"]].set_visible(False)
+plt.show()
+
+inside = np.mean(np.abs(means_20 - truth) <= 1.96 * se)
+print(f"Band: {truth - 1.96 * se:.2f} to {truth + 1.96 * se:.2f}")
+print(f"Sample means inside it: {inside:.1%}")
+```
+
+$$
+69.99 - 1.96 \times 2.67 = 64.76
+\qquad\qquad
+69.99 + 1.96 \times 2.67 = 75.22
+$$
+
+95.1% of the 5,000 estimates land between those two numbers.
+
+The standard error is 2.67 points, so the band runs 1.96 of them either side of 69.99.
+:::

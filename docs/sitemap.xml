@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://julianjhkim.github.io/statistics-book/index.html</loc>
+    <lastmod>2026-11-06T07:17:44.139Z</lastmod>
+  </url>
+  <url>
     <loc>https://julianjhkim.github.io/statistics-book/populations-and-samples.html</loc>
     <lastmod>2026-10-29T09:54:47.821Z</lastmod>
   </url>
@@ -10,11 +14,11 @@
   </url>
   <url>
     <loc>https://julianjhkim.github.io/statistics-book/normal-distribution-central-limit-theorem.html</loc>
-    <lastmod>2026-10-29T09:54:47.821Z</lastmod>
+    <lastmod>2026-10-30T04:46:27.345Z</lastmod>
   </url>
   <url>
     <loc>https://julianjhkim.github.io/statistics-book/confidence-interval.html</loc>
-    <lastmod>2026-10-29T09:44:01.224Z</lastmod>
+    <lastmod>2026-10-30T12:57:38.283Z</lastmod>
   </url>
   <url>
     <loc>https://julianjhkim.github.io/statistics-book/t-test.html</loc>

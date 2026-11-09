@@ -452,7 +452,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">2026-10-29</p>
+      <p class="date-modified">2026-10-30</p>
     </div>
   </div>
     
@@ -712,9 +712,59 @@ Figure&nbsp;3.5: The 5,000 sample means from chapter 2, with bands at 1, 2 and 3
 </div>
 </div>
 <p>Around 68%, 95% and 99.7%. Those three numbers are worth memorizing.</p>
-<p>So a standard error of 2.67 means this: about two thirds of the time a sample of 20 lands within 2.67 points of the truth, and about 95 times in 100, within 5.34.</p>
+<p>So a standard error of 2.67 means this: about two thirds of the time (68%) a sample of 20 lands within 2.67 points of the truth, and about 95 times in 100, within 5.34.</p>
 <p>And that was the second thing we borrowed. The width came from <span class="math inline">\(\sigma\)</span>. The centering came from <span class="math inline">\(\mu\)</span>: every band in <a href="#fig-bands" class="quarto-xref">Figure&nbsp;<span>3.5</span></a> was drawn around 69.99.</p>
 <p>A real study has neither. It has one sample, one mean, and one <span class="math inline">\(s\)</span>. The next chapter starts there.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why you will hear “2 standard errors”
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>People say “2 standard errors” for 95%, and the last chapter said it too. The exact multiplier is 1.96.</p>
+<div id="cell-fig-196" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">3.4</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ax.hist(means_20, bins<span class="op">=</span><span class="dv">60</span>, color<span class="op">=</span><span class="st">"#adb5bd"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>, linewidth<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ax.axvspan(truth <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> se, truth <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> se, color<span class="op">=</span><span class="st">"#dee2e6"</span>, zorder<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>ax.axvline(truth, color<span class="op">=</span><span class="st">"#c92a2a"</span>, linewidth<span class="op">=</span><span class="fl">1.8</span>, zorder<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Mean of 20 students"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Number of samples"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ax.spines[[<span class="st">"top"</span>, <span class="st">"right"</span>]].set_visible(<span class="va">False</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>inside <span class="op">=</span> np.mean(np.<span class="bu">abs</span>(means_20 <span class="op">-</span> truth) <span class="op">&lt;=</span> <span class="fl">1.96</span> <span class="op">*</span> se)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Band: </span><span class="sc">{</span>truth <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> se<span class="sc">:.2f}</span><span class="ss"> to </span><span class="sc">{</span>truth <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> se<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sample means inside it: </span><span class="sc">{</span>inside<span class="sc">:.1%}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-196" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-196-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="normal-distribution-central-limit-theorem_files/figure-html/fig-196-output-1.png" width="594" height="312" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-196-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.6: The band at 1.96 standard errors either side of the true mean, drawn over the 5,000 sample means.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Band: 64.76 to 75.22
+Sample means inside it: 95.1%</code></pre>
+</div>
+</div>
+<p><span class="math display">\[
+69.99 - 1.96 \times 2.67 = 64.76
+\qquad\qquad
+69.99 + 1.96 \times 2.67 = 75.22
+\]</span></p>
+<p>95.1% of the 5,000 estimates land between those two numbers.</p>
+<p>The standard error is 2.67 points, so the band runs 1.96 of them either side of 69.99.</p>
+</div>
+</div>
 
 
 </section>
