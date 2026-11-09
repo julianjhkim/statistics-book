@@ -9,8 +9,9 @@ no pre-baked figures.
 - Title: **Statistics by Simulation**, by Junghyun Julian Kim.
 - `_quarto.yml` is a `book` project with `output-dir: docs`. GitHub Pages
   serves `docs/` on the `main` branch, so **`docs/` is committed to the repo**.
-- `index.qmd` is the preface and is `{.unnumbered}`. It is currently a heading
-  and nothing else.
+- `index.qmd` is the preface and is `{.unnumbered}`. Three short paragraphs:
+  statistics is confusing, looking at the data makes it easier, and the book
+  needs no mathematical background (deeper math goes in note boxes).
 - `number-sections: true`, so chapters and sections carry numbers (chapter 1
   section 4 is `1.4`). Those numbers are how chapters get referred to in
   conversation; they shift if a `##` is added or removed.

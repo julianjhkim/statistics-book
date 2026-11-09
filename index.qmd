@@ -1,1 +1,7 @@
 # Preface {.unnumbered}
+
+Statistics is hard. More than anything, it is confusing. What on earth is a p-value, for example?
+
+Once you actually look at the data, though, it is easier than you might think. A standard error or a confidence interval stops being an abstract formula when you can watch it appear out of thousands of samples on the screen. That is how this book works: every idea is shown with data first, and the formula comes after.
+
+The book is written so that you can understand it intuitively, without a background in mathematics. Where a topic genuinely needs more mathematical depth, the extra explanation is kept short and simple, and set apart in a note box.
